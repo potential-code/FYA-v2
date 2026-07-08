@@ -4,53 +4,158 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { phases } from "@shared/content/phases";
 import { useLanguage } from "../../context/LanguageContext";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { ensureGsapRegistered } from "../../lib/gsapConfig";
+import { useGsapMatchMedia } from "../../hooks/useGsapMatchMedia";
 
 export function JourneySection() {
   const { t } = useTranslation("translation", { keyPrefix: "landing" });
   const { lang } = useLanguage();
+  const isArabic = lang === "ar";
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
+  const mapWrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (headerRef.current) {
-        gsap.fromTo(
-          headerRef.current.children,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            stagger: 0.12,
-            ease: "power2.out",
-            scrollTrigger: { trigger: headerRef.current, start: "top 85%", toggleActions: "play none none none" },
-          },
-        );
-      }
-      if (cardsRef.current) {
-        gsap.fromTo(
-          cardsRef.current.children,
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            stagger: 0.15,
-            ease: "power2.out",
-            scrollTrigger: { trigger: cardsRef.current, start: "top 85%", toggleActions: "play none none none" },
-          },
-        );
-      }
-    });
-    return () => ctx.revert();
-  }, [lang]);
+    ensureGsapRegistered();
+    const { mm, breakpoints } = useGsapMatchMedia();
+
+    mm.add(
+      {
+        isDesktop: breakpoints.isDesktop,
+        isMobile: breakpoints.isMobile,
+        reduce: breakpoints.reduce,
+      },
+      (context) => {
+        const { isDesktop, reduce } = context.conditions as {
+          isDesktop: boolean;
+          isMobile: boolean;
+          reduce: boolean;
+        };
+
+        const cardsRoot = cardsRef.current;
+        const cards = cardsRoot ? gsap.utils.toArray<HTMLElement>("[data-phase-card]", cardsRoot) : [];
+
+        if (reduce) {
+          if (headerRef.current) gsap.set(headerRef.current.children, { opacity: 1, y: 0 });
+          if (cardsRoot) gsap.set(cardsRoot.children, { opacity: 1, y: 0 });
+          cards.forEach((card) => {
+            const image = card.querySelector("[data-phase-image]");
+            const badge = card.querySelector("[data-phase-badge]");
+            const meta = card.querySelector("[data-phase-meta]");
+            const title = card.querySelector("[data-phase-title]");
+            const desc = card.querySelector("[data-phase-desc]");
+            gsap.set(
+              [image, badge, meta, title, desc].filter(Boolean) as Element[],
+              { opacity: 1, y: 0, scale: 1 },
+            );
+          });
+          if (mapWrapRef.current) gsap.set(mapWrapRef.current, { clipPath: "inset(0 0% 0 0%)" });
+          return;
+        }
+
+        if (headerRef.current) {
+          gsap.fromTo(
+            headerRef.current.children,
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              stagger: 0.12,
+              ease: "power2.out",
+              scrollTrigger: { trigger: headerRef.current, start: "top 85%", toggleActions: "play none none none" },
+            },
+          );
+        }
+
+        if (isDesktop) {
+          // Two-level cascade: the 3 cards stagger relative to each other
+          // (via each timeline's `delay`, since they sit in the same grid
+          // row and would otherwise all cross the ScrollTrigger threshold
+          // at once), and each card's internal elements cascade within it —
+          // image reveal -> badge pop -> meta -> title -> description, with
+          // small overlapping offsets so it reads as one fluid motion.
+          cards.forEach((card, i) => {
+            const image = card.querySelector("[data-phase-image]");
+            const badge = card.querySelector("[data-phase-badge]");
+            const meta = card.querySelector("[data-phase-meta]");
+            const title = card.querySelector("[data-phase-title]");
+            const desc = card.querySelector("[data-phase-desc]");
+
+            const tl = gsap.timeline({
+              delay: i * 0.15,
+              scrollTrigger: { trigger: card, start: "top 85%", toggleActions: "play none none none" },
+            });
+
+            if (image) {
+              tl.fromTo(
+                image,
+                { opacity: 0, scale: 1.08 },
+                { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" },
+              );
+            }
+            if (badge) {
+              tl.fromTo(
+                badge,
+                { opacity: 0, scale: 0 },
+                { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" },
+                "-=0.3",
+              );
+            }
+            if (meta) {
+              tl.fromTo(meta, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.25");
+            }
+            if (title) {
+              tl.fromTo(title, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.25");
+            }
+            if (desc) {
+              tl.fromTo(desc, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.25");
+            }
+          });
+        } else if (cardsRoot) {
+          // Mobile: keep the simpler pre-existing group-stagger-only reveal —
+          // no per-element cascade, no badge pop overshoot, to keep
+          // scroll-triggered work light.
+          gsap.fromTo(
+            cardsRoot.children,
+            { opacity: 0, y: 40 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              stagger: 0.15,
+              ease: "power2.out",
+              scrollTrigger: { trigger: cardsRoot, start: "top 85%", toggleActions: "play none none none" },
+            },
+          );
+        }
+
+        if (mapWrapRef.current) {
+          // Wipe-open reveal: mirrored for RTL so the wipe always travels in
+          // the same visual direction the reading order does.
+          const startClip = isArabic ? "inset(0 0% 0 100%)" : "inset(0 100% 0 0%)";
+          gsap.fromTo(
+            mapWrapRef.current,
+            { clipPath: startClip },
+            {
+              clipPath: "inset(0 0% 0 0%)",
+              ease: "none",
+              scrollTrigger: {
+                trigger: mapWrapRef.current,
+                start: "top 90%",
+                end: "top 40%",
+                scrub: 0.5,
+              },
+            },
+          );
+        }
+      },
+    );
+
+    return () => mm.revert();
+  }, [lang, isArabic]);
 
   return (
     <section id="journey" className="bg-surface-soft py-24">
@@ -63,37 +168,55 @@ export function JourneySection() {
 
         <div ref={cardsRef} className="mt-14 grid gap-6 md:grid-cols-3">
           {phases.map((phase) => (
-            <div key={phase.id} className="overflow-hidden rounded-2xl border border-stroke bg-white shadow-sm">
-              <div className="relative h-44 w-full">
-                <Image src={phase.image} alt={phase.title[lang]} fill className="object-cover" />
+            <div
+              key={phase.id}
+              data-phase-card
+              className="group overflow-hidden rounded-2xl border border-stroke bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_rgba(99,128,211,0.16)]"
+            >
+              <div className="relative h-44 w-full overflow-hidden">
+                <div data-phase-image className="absolute inset-0">
+                  <Image
+                    src={phase.image}
+                    alt={phase.title[lang]}
+                    fill
+                    className="object-cover transition-transform duration-500 hover:scale-105"
+                  />
+                </div>
                 <div
-                  className="absolute start-4 top-4 flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold text-white"
+                  data-phase-badge
+                  className="absolute start-4 top-4 flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold text-white transition-shadow duration-300 group-hover:shadow-[0_0_0_6px_rgba(99,128,211,0.25)]"
                   style={{ background: phase.accent }}
                 >
                   {phase.num[lang]}
                 </div>
               </div>
               <div className="p-6">
-                <div className="flex items-center gap-2 text-xs font-semibold text-brand">
+                <div data-phase-meta className="flex items-center gap-2 text-xs font-semibold text-brand">
                   <span>{phase.kicker[lang]}</span>
                   <span className="text-stroke-strong">·</span>
                   <span className="text-muted">{phase.tag[lang]}</span>
                 </div>
-                <h3 className="mt-2 text-lg font-bold text-brand-navy">{phase.title[lang]}</h3>
-                <p className="mt-2 text-sm text-ink-soft">{phase.desc[lang]}</p>
+                <h3 data-phase-title className="mt-2 text-lg font-bold text-brand-navy">
+                  {phase.title[lang]}
+                </h3>
+                <p data-phase-desc className="mt-2 text-sm text-ink-soft">
+                  {phase.desc[lang]}
+                </p>
               </div>
             </div>
           ))}
         </div>
 
         <div className="mt-14 overflow-hidden rounded-3xl border border-stroke">
-          <Image
-            src="/images/journey-map.png"
-            alt={t("journeyMapAlt")}
-            width={1200}
-            height={480}
-            className="h-auto w-full object-cover"
-          />
+          <div ref={mapWrapRef}>
+            <Image
+              src="/images/journey-map.png"
+              alt={t("journeyMapAlt")}
+              width={1200}
+              height={480}
+              className="h-auto w-full object-cover"
+            />
+          </div>
         </div>
       </div>
     </section>

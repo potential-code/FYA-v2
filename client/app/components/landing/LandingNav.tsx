@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import Image from "next/image";
@@ -52,16 +52,23 @@ export function LandingNav() {
 }
 
 function NavBrand({ light = false }: { light?: boolean }) {
+  const reduceMotion = useReducedMotion();
   return (
     <Link href="/" className="flex items-center gap-2">
-      <Image
-        src={light ? "/images/logo-white.png" : "/images/logo-blue.png"}
-        alt="Youth Leaders Path"
-        width={170}
-        height={44}
-        className="h-10 w-auto object-contain md:h-12"
-        priority
-      />
+      <motion.div
+        whileHover={{ scale: 1.04 }}
+        whileTap={{ scale: 0.97 }}
+        transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 25 }}
+      >
+        <Image
+          src={light ? "/images/logo-white.png" : "/images/logo-blue.png"}
+          alt="Youth Leaders Path"
+          width={170}
+          height={44}
+          className="h-10 w-auto object-contain md:h-12"
+          priority
+        />
+      </motion.div>
     </Link>
   );
 }
@@ -79,26 +86,42 @@ function NavLinks({
   isArabic: boolean;
   light?: boolean;
 }) {
+  const reduceMotion = useReducedMotion();
   return (
     <div className="hidden items-center gap-8 text-sm font-medium md:flex">
       {NAV_LINKS.map((link) => (
-        <a
+        <motion.a
           key={link.href}
           href={link.href}
-          className={light ? "text-white/90 transition hover:text-white" : "text-ink-soft transition hover:text-brand"}
+          initial="rest"
+          whileHover="hover"
+          animate="rest"
+          className={`relative inline-block ${light ? "text-white/90 transition hover:text-white" : "text-ink-soft transition hover:text-brand"}`}
         >
           {t(link.key)}
-        </a>
+          <motion.span
+            aria-hidden
+            className={`absolute -bottom-1 start-0 h-0.5 w-full origin-center ${light ? "bg-white" : "bg-brand"}`}
+            variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
+          />
+        </motion.a>
       ))}
       {/* Language toggle lives inline with the nav links on desktop, centered in the nav bar. */}
-      <Toggle
-        checked={isArabic}
-        onCheckedChange={toggleLang}
-        variant="secondary"
-        label={tc("langBtn")}
-        aria-label="Toggle language"
-        className={light ? "text-white/90" : undefined}
-      />
+      <motion.div
+        whileHover={{ scale: 1.04 }}
+        whileTap={{ scale: 0.97 }}
+        transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 25 }}
+      >
+        <Toggle
+          checked={isArabic}
+          onCheckedChange={toggleLang}
+          variant="secondary"
+          label={tc("langBtn")}
+          aria-label="Toggle language"
+          className={light ? "text-white/90" : undefined}
+        />
+      </motion.div>
     </div>
   );
 }
@@ -114,18 +137,26 @@ function NavActions({
   isArabic: boolean;
   light?: boolean;
 }) {
+  const reduceMotion = useReducedMotion();
   return (
     <div className="flex items-center gap-3">
       {/* On mobile the nav links (and the toggle inside them) are hidden, so surface
           the language toggle here instead — hidden on md+ where NavLinks already shows it. */}
-      <Toggle
-        checked={isArabic}
-        onCheckedChange={toggleLang}
-        variant="secondary"
-        label={tc("langBtn")}
-        aria-label="Toggle language"
-        className={`md:hidden ${light ? "text-white/90" : ""}`}
-      />
+      <motion.div
+        className="md:hidden"
+        whileHover={{ scale: 1.04 }}
+        whileTap={{ scale: 0.97 }}
+        transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 25 }}
+      >
+        <Toggle
+          checked={isArabic}
+          onCheckedChange={toggleLang}
+          variant="secondary"
+          label={tc("langBtn")}
+          aria-label="Toggle language"
+          className={light ? "text-white/90" : ""}
+        />
+      </motion.div>
       <Link
         href="/login"
         className={light ? "text-sm font-medium text-white/90 hover:text-white" : "text-sm font-medium text-ink-soft hover:text-brand"}
@@ -133,9 +164,16 @@ function NavActions({
         {tc("login")}
       </Link>
       <Link href="/sign-up">
-        <Button variant="solid" style="primary" size="sm">
-          {tc("registerNow")}
-        </Button>
+        <motion.div
+          className="inline-block"
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
+          transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 25 }}
+        >
+          <Button variant="solid" style="primary" size="sm">
+            {tc("registerNow")}
+          </Button>
+        </motion.div>
       </Link>
     </div>
   );

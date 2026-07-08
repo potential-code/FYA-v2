@@ -1,106 +1,181 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import Link from "next/link";
+import gsap from "gsap";
 import { Button } from "@aegov/design-system-react";
 import { useLanguage } from "../../context/LanguageContext";
 import { useCountUp } from "../../hooks/useCountUp";
 import { fmtNum } from "../../lib/utils";
+import { ensureGsapRegistered } from "../../lib/gsapConfig";
+import { useGsapMatchMedia } from "../../hooks/useGsapMatchMedia";
 import { LandingNav } from "./LandingNav";
 
 const STAT_TARGETS = [1000, 6, 8, 40];
 const STAT_LABEL_KEYS = ["stat1l", "stat2l", "stat3l", "stat4l"];
 
-const fadeUp: Variants = {
+const container: Variants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.15 },
+  },
+};
+
+const item: Variants = {
   hidden: { opacity: 0, y: 24 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: 0.15 * i, duration: 0.6, ease: "easeOut" as const },
-  }),
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
 };
 
 export function HeroSection() {
   const { t } = useTranslation("translation", { keyPrefix: "landing" });
   const { lang } = useLanguage();
+  const reduceMotion = useReducedMotion();
+  const bgRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    ensureGsapRegistered();
+    const { mm, breakpoints } = useGsapMatchMedia();
+
+    mm.add(
+      {
+        isDesktop: breakpoints.isDesktop,
+        reduce: breakpoints.reduce,
+      },
+      (context) => {
+        const { isDesktop, reduce } = context.conditions as { isDesktop: boolean; reduce: boolean };
+
+        if (reduce) {
+          if (bgRef.current) gsap.set(bgRef.current, { yPercent: 0 });
+          if (contentRef.current) gsap.set(contentRef.current, { opacity: 1, y: 0, scale: 1 });
+          return;
+        }
+
+        // Both the background parallax and the scroll-out exit are desktop-only
+        // cinematic payoffs — mobile keeps only the FM mount-stagger.
+        if (!isDesktop) return;
+
+        if (bgRef.current) {
+          gsap.fromTo(
+            bgRef.current,
+            { yPercent: 0 },
+            {
+              yPercent: 10,
+              ease: "none",
+              scrollTrigger: {
+                trigger: bgRef.current.parentElement,
+                start: "top top",
+                end: "bottom top",
+                scrub: 0.8,
+              },
+            },
+          );
+        }
+
+        if (contentRef.current) {
+          gsap.to(contentRef.current, {
+            opacity: 0,
+            y: -60,
+            scale: 0.97,
+            ease: "none",
+            scrollTrigger: {
+              trigger: contentRef.current.closest("section"),
+              start: "top top",
+              end: "bottom top",
+              scrub: 0.6,
+            },
+          });
+        }
+      },
+    );
+
+    return () => mm.revert();
+    // AR/EN text-length differences shift content height and therefore
+    // ScrollTrigger start/end positions — re-run on language toggle.
+  }, [lang]);
 
   return (
     <section className="relative flex min-h-screen items-end overflow-hidden bg-brand-navy text-white">
       <LandingNav />
-      <Image
-        src="/images/hero-group.png"
-        alt={t("aboutImgAlt")}
-        fill
-        priority
-        className="object-cover"
-      />
+      <div ref={bgRef} className="absolute -inset-y-[10%] inset-x-0">
+        <Image
+          src="/images/hero-group.png"
+          alt={t("aboutImgAlt")}
+          fill
+          priority
+          className="object-cover"
+        />
+      </div>
       <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/70 to-brand-navy/20" />
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20 pt-40 md:px-12">
+      <motion.div
+        ref={contentRef}
+        variants={container}
+        initial={reduceMotion ? false : "hidden"}
+        animate="show"
+        className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20 pt-40 md:px-12"
+      >
         <motion.span
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          custom={0}
+          variants={item}
           className="inline-block rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-semibold tracking-wide backdrop-blur"
         >
           {t("heroBadge")}
         </motion.span>
 
-        <motion.h1
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          custom={1}
-          className="mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl"
-        >
+        <motion.h1 variants={item} className="mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
           {t("heroTitle1")} {t("heroTitle2")}{" "}
           <span className="bg-gradient-to-r from-brand-light to-white bg-clip-text text-transparent">
             {t("heroTitleAccent")}
           </span>
         </motion.h1>
 
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          custom={2}
-          className="mt-5 max-w-2xl text-base text-white/80 md:text-lg"
-        >
+        <motion.p variants={item} className="mt-5 max-w-2xl text-base text-white/80 md:text-lg">
           {t("heroSub")}
         </motion.p>
 
-        <motion.div variants={fadeUp} initial="hidden" animate="show" custom={3} className="mt-8 flex flex-wrap gap-4">
+        <motion.div variants={item} className="mt-8 flex flex-wrap gap-4">
           <Link href="/sign-up">
-            <Button variant="solid" style="primary" size="lg">
-              {t("heroCta")}
-            </Button>
+            <motion.div
+              className="inline-block"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 25 }}
+            >
+              <Button variant="solid" style="primary" size="lg">
+                {t("heroCta")}
+              </Button>
+            </motion.div>
           </Link>
-          <Button
-            asChild
-            variant="outline"
-            style="secondary"
-            size="lg"
-            className="border-white/30 bg-white/10 text-white backdrop-blur-md hover:bg-white/20 hover:text-white"
+          <motion.div
+            className="inline-block"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 25 }}
           >
-            <a href="#journey">{t("heroCta2")}</a>
-          </Button>
+            <Button
+              asChild
+              variant="outline"
+              style="secondary"
+              size="lg"
+              className="border-white/30 bg-white/10 text-white backdrop-blur-md hover:bg-white/20 hover:text-white"
+            >
+              <a href="#journey">{t("heroCta2")}</a>
+            </Button>
+          </motion.div>
         </motion.div>
 
         <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          custom={4}
+          variants={item}
           className="mt-14 flex flex-wrap gap-x-10 gap-y-6 border-t border-white/15 pt-8"
         >
           {STAT_TARGETS.map((target, i) => (
             <StatBlock key={i} target={target} labelKey={STAT_LABEL_KEYS[i]} lang={lang} t={t} />
           ))}
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }
