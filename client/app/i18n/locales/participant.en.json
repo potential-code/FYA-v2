@@ -1,0 +1,85 @@
+{
+  "navDash": "My Dashboard",
+  "navJourney": "Learning Journey",
+  "parentLink": "Parent Portal →",
+  "userTrack": "Track B · Ages 15–18",
+  "sideCardKicker": "Current journey",
+  "sideCardPct": "42% of your journey complete",
+  "pointsChip": "1,240 points",
+  "heroKicker": "Good morning",
+  "heroTitle": "Welcome back Ahmed — your path awaits",
+  "heroSub": "You are in the {{pillar}} pillar. Complete today's module to keep your streak and earn the \"Committed\" badge.",
+  "chipPointsL": "points",
+  "chipStreakL": "day streak",
+  "journeyLabel": "My Leadership Journey",
+  "journeySubLabel": "Six pillars — complete each to unlock the next",
+  "youAreHere": "You are here",
+  "nextChip": "NEXT STEP",
+  "nextModule": "Video: A Leader's Energy — manage energy, not time",
+  "nextMeta": "3 min · Pillar 2",
+  "heroCta": "Continue now",
+  "pillarsCardTitle": "My progress across the six pillars",
+  "viewJourney": "View full journey",
+  "nextTitle": "Next up for you",
+  "nextCta": "Start now",
+  "taskTitle": "Weekly challenge",
+  "taskChip": "In progress",
+  "taskBody": "Track your daily routine for 5 days and log reflections in your journal.",
+  "taskProgress": "3 of 5 days complete",
+  "journeyHeadTitle": "Learning Journey",
+  "journeyHeadSub": "Six leadership pillars — complete each to unlock the next",
+  "journeyOverall": "Overall progress",
+  "continueCta": "Continue learning",
+  "statPoints": "My points",
+  "statPointsSub": "+80 this week",
+  "statStreak": "Day streak",
+  "statStreakSub": "Keep it alive today!",
+  "statBadges": "Badges",
+  "statBadgesSub": "Next: \"Committed\"",
+  "statRank": "My rank",
+  "statRankValue": "12",
+  "statRankSub": "of 1,032 participants",
+  "days": "days",
+  "statusComplete": "Complete ✓",
+  "statusInProgress": "In progress",
+  "statusLocked": "Locked",
+  "moduleMeta": "4 videos · 3 quizzes · 1 challenge",
+  "modules": {
+    "identity-values": [
+      { "title": "Video: Who I am as an Emirati leader", "meta": "Done", "status": "done" },
+      { "title": "Quiz: My core values", "meta": "95%", "status": "done" },
+      { "title": "Video: Stories from Emirati leaders", "meta": "Current", "status": "current" },
+      { "title": "Reflection: My mark on my community", "meta": "Up next", "status": "next" }
+    ],
+    "self-management": [
+      { "title": "Video: Why Discipline = Freedom", "meta": "Done", "status": "done" },
+      { "title": "Interactive quiz: Discipline basics", "meta": "92%", "status": "done" },
+      { "title": "Video: A Leader's Energy", "meta": "Current", "status": "current" },
+      { "title": "Challenge: Track your routine for 5 days", "meta": "Up next", "status": "next" }
+    ],
+    "communication": [
+      { "title": "Video: The art of active listening", "meta": "Done", "status": "done" },
+      { "title": "Quiz: Persuasion techniques", "meta": "88%", "status": "done" },
+      { "title": "Challenge: Record a short speaking clip", "meta": "Current", "status": "current" },
+      { "title": "Reflection: My biggest communication challenge", "meta": "Up next", "status": "next" }
+    ],
+    "leadership-teamwork": [
+      { "title": "Video: Leadership styles", "meta": "Done", "status": "done" },
+      { "title": "Simulation: Leading a team in crisis", "meta": "90%", "status": "done" },
+      { "title": "Group challenge: Delegating roles", "meta": "Current", "status": "current" },
+      { "title": "Quiz: Group decision-making", "meta": "Up next", "status": "next" }
+    ],
+    "initiative-community": [
+      { "title": "Video: From idea to impact", "meta": "Done", "status": "done" },
+      { "title": "Workshop: Planning an impact project", "meta": "94%", "status": "done" },
+      { "title": "Task: Draft your project idea", "meta": "Current", "status": "current" },
+      { "title": "Challenge: Take your first field step", "meta": "Up next", "status": "next" }
+    ],
+    "future-digital": [
+      { "title": "Video: Introduction to AI", "meta": "Done", "status": "done" },
+      { "title": "Quiz: Responsible digital citizenship", "meta": "91%", "status": "done" },
+      { "title": "Challenge: Create responsible digital content", "meta": "Current", "status": "current" },
+      { "title": "Reflection: My future in a digital world", "meta": "Up next", "status": "next" }
+    ]
+  }
+}

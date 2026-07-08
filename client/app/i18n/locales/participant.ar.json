@@ -1,0 +1,85 @@
+{
+  "navDash": "لوحتي",
+  "navJourney": "رحلة التعلم",
+  "parentLink": "بوابة ولي الأمر ←",
+  "userTrack": "المسار ب · ١٥–١٨ سنة",
+  "sideCardKicker": "رحلتك الحالية",
+  "sideCardPct": "أكملت ٤٢٪ من الرحلة",
+  "pointsChip": "١٬٢٤٠ نقطة",
+  "heroKicker": "صباح الخير",
+  "heroTitle": "أهلاً بعودتك أحمد — مسارك ينتظرك",
+  "heroSub": "أنت في محور {{pillar}}. أكمل وحدة اليوم لتحافظ على سلسلتك وتقترب من شارة «الملتزم».",
+  "chipPointsL": "نقطة",
+  "chipStreakL": "أيام متتالية",
+  "journeyLabel": "رحلتي القيادية",
+  "journeySubLabel": "ستة محاور — أكمل كل محور لتفتح الذي يليه",
+  "youAreHere": "أنت هنا",
+  "nextChip": "الخطوة التالية",
+  "nextModule": "مقطع: طاقة القائد — كيف تدير طاقتك لا وقتك",
+  "nextMeta": "٣ دقائق · المحور الثاني",
+  "heroCta": "أكمل الآن",
+  "pillarsCardTitle": "تقدمي في المحاور الستة",
+  "viewJourney": "عرض الرحلة كاملة",
+  "nextTitle": "التالي في رحلتك",
+  "nextCta": "ابدأ الآن",
+  "taskTitle": "تحدي الأسبوع",
+  "taskChip": "قيد التنفيذ",
+  "taskBody": "تتبّع روتينك اليومي لمدة ٥ أيام ووثّق ملاحظاتك في دفتر التأمل.",
+  "taskProgress": "٣ من ٥ أيام مكتملة",
+  "journeyHeadTitle": "رحلة التعلم",
+  "journeyHeadSub": "ستة محاور قيادية — أكمل كل محور لتفتح الذي يليه",
+  "journeyOverall": "التقدم الكلي",
+  "continueCta": "أكمل التعلم",
+  "statPoints": "نقاطي",
+  "statPointsSub": "+٨٠ هذا الأسبوع",
+  "statStreak": "سلسلة الأيام",
+  "statStreakSub": "لا تفقدها اليوم!",
+  "statBadges": "الشارات",
+  "statBadgesSub": "التالية: «الملتزم»",
+  "statRank": "ترتيبي",
+  "statRankValue": "١٢",
+  "statRankSub": "من ١٬٠٣٢ مشاركاً",
+  "days": "أيام",
+  "statusComplete": "مكتمل ✓",
+  "statusInProgress": "قيد التقدم",
+  "statusLocked": "مقفل",
+  "moduleMeta": "٤ مقاطع · ٣ اختبارات · تحدٍّ عملي",
+  "modules": {
+    "identity-values": [
+      { "title": "مقطع: من أنا كقائد إماراتي", "meta": "مكتمل", "status": "done" },
+      { "title": "اختبار: قيمي الأساسية", "meta": "٩٥٪", "status": "done" },
+      { "title": "مقطع: قصص من قادة الإمارات", "meta": "الحالي", "status": "current" },
+      { "title": "تأمل: بصمتي في مجتمعي", "meta": "قريباً", "status": "next" }
+    ],
+    "self-management": [
+      { "title": "مقطع: لماذا الانضباط = حرية", "meta": "مكتمل", "status": "done" },
+      { "title": "اختبار تفاعلي: أساسيات الانضباط", "meta": "٩٢٪", "status": "done" },
+      { "title": "مقطع: طاقة القائد", "meta": "الحالي", "status": "current" },
+      { "title": "تحدٍّ عملي: تتبّع روتينك ٥ أيام", "meta": "قريباً", "status": "next" }
+    ],
+    "communication": [
+      { "title": "مقطع: فن الإصغاء الفعّال", "meta": "مكتمل", "status": "done" },
+      { "title": "اختبار: أساليب الإقناع", "meta": "٨٨٪", "status": "done" },
+      { "title": "تحدٍّ: سجّل مقطع إلقاء قصير", "meta": "الحالي", "status": "current" },
+      { "title": "تأمل: أكبر تحدٍّ في التواصل", "meta": "قريباً", "status": "next" }
+    ],
+    "leadership-teamwork": [
+      { "title": "مقطع: أنماط القيادة", "meta": "مكتمل", "status": "done" },
+      { "title": "محاكاة: قيادة فريق في أزمة", "meta": "٩٠٪", "status": "done" },
+      { "title": "تحدٍّ جماعي: توزيع الأدوار", "meta": "الحالي", "status": "current" },
+      { "title": "اختبار: اتخاذ القرار الجماعي", "meta": "قريباً", "status": "next" }
+    ],
+    "initiative-community": [
+      { "title": "مقطع: من الفكرة إلى الأثر", "meta": "مكتمل", "status": "done" },
+      { "title": "ورشة: تخطيط مشروع أثر", "meta": "٩٤٪", "status": "done" },
+      { "title": "مهمة: صياغة فكرة مشروعك", "meta": "الحالي", "status": "current" },
+      { "title": "تحدٍّ: تنفيذ أول خطوة ميدانية", "meta": "قريباً", "status": "next" }
+    ],
+    "future-digital": [
+      { "title": "مقطع: مقدمة في الذكاء الاصطناعي", "meta": "مكتمل", "status": "done" },
+      { "title": "اختبار: المواطنة الرقمية المسؤولة", "meta": "٩١٪", "status": "done" },
+      { "title": "تحدٍّ: أنشئ محتوى رقميًا مسؤولاً", "meta": "الحالي", "status": "current" },
+      { "title": "تأمل: مستقبلي في عالم رقمي", "meta": "قريباً", "status": "next" }
+    ]
+  }
+}

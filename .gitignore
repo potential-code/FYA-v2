@@ -1,0 +1,21 @@
+node_modules/
+.env
+*.tsbuildinfo
+
+# Next.js
+client/.next/
+client/next-env.d.ts
+
+# OS/editor
+.DS_Store
+
+# Original design source material (per current_folder_structure.md) — reference
+# assets left in place but intentionally not migrated/versioned with the app.
+/assets/
+/brand/
+/fonts/
+/uploads/
+/.thumbnail
+*.dc.html
+/image-slot.js
+/support.js

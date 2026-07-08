@@ -1,0 +1,22 @@
+{
+  "name": "youth-leaders-path",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "postinstall": "node scripts/fix-phosphor-icons.cjs",
+    "dev": "concurrently -n client,server -c cyan,green \"bun run --filter client dev\" \"bun run --filter server dev\"",
+    "dev:frontend": "bun run --filter client dev",
+    "dev:backend": "bun run --filter server dev",
+    "build": "bun run --filter client build",
+    "typecheck": "tsc -p client/tsconfig.json --noEmit && tsc -p server/tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "typescript": "^5.7.0"
+  }
+}

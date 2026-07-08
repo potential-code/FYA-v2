@@ -1,0 +1,38 @@
+@import "../../node_modules/@aegov/design-system-react/dist/styles/tailwind.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Milligram";
+  src: url("/fonts/Milligram-Regular.ttf");
+  font-weight: 400;
+  unicode-range: U+0000-002F, U+003A-10FFFF;
+}
+@font-face {
+  font-family: "Milligram";
+  src: url("/fonts/Milligram-Medium.ttf");
+  font-weight: 500;
+  unicode-range: U+0000-002F, U+003A-10FFFF;
+}
+@font-face {
+  font-family: "Milligram";
+  src: url("/fonts/Milligram-Bold.ttf");
+  font-weight: 700;
+  unicode-range: U+0000-002F, U+003A-10FFFF;
+}
+
+:root {
+  --font-sans: "Milligram", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: #2a3040;
+}
