@@ -145,6 +145,18 @@ export function JourneySection() {
   return (
     <section id="journey" className="bg-surface-soft py-24">
       <div className="mx-auto max-w-6xl px-6 md:px-12">
+        <div className="relative">
+          {/* Large faint brand-logo watermark spanning behind the header copy
+              and the 3 phase cards (not the timeline below). */}
+          <Image
+            src="/images/branding-motifs/cutout-logo-blue.png"
+            alt=""
+            aria-hidden
+            width={1600}
+            height={768}
+            className="pointer-events-none absolute left-1/2 top-1/2 z-0 w-[115%] max-w-none -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.1]"
+          />
+          <div className="relative z-10">
         <div ref={headerRef} className="mx-auto max-w-2xl text-center">
           <span className="text-sm font-semibold uppercase tracking-wide text-brand">{t("journeyKicker")}</span>
           <h2 className="mt-3 text-3xl font-bold text-brand-navy md:text-4xl">
@@ -210,6 +222,8 @@ export function JourneySection() {
             </Card>
             </div>
           ))}
+        </div>
+        </div>
         </div>
 
         <ParticipantJourneyTimeline />
