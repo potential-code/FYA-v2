@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
+import { Card, Button } from "@aegov/design-system-react";
 import { pillars } from "@shared/content/pillars";
 import { mockChildProfile } from "@shared/content/mockDashboardData";
 import { useLanguage } from "../../context/LanguageContext";
@@ -14,7 +15,7 @@ export function DashboardHeroCard({ onContinue }: { onContinue: () => void }) {
   const currentPillar = pillars[mockChildProfile.currentPillarIndex];
 
   return (
-    <div className="relative overflow-hidden rounded-[22px] bg-gradient-to-br from-brand-navy via-[#2E4494] to-brand-dark p-6 text-white sm:p-7">
+    <Card variant="news" className="relative overflow-hidden rounded-[22px] bg-gradient-to-br from-brand-navy via-[#2E4494] to-brand-dark p-6 text-white sm:p-7">
       <Image
         src="/images/logo-white.png"
         alt=""
@@ -58,14 +59,15 @@ export function DashboardHeroCard({ onContinue }: { onContinue: () => void }) {
           <span className="flex-1 text-sm font-medium opacity-95">
             {t("nextModule")} · {t("nextMeta")}
           </span>
-          <button
+          <Button
             onClick={onContinue}
-            className="flex-shrink-0 rounded-lg bg-white px-6 py-2.5 text-[13.5px] font-bold text-brand-navy transition hover:-translate-y-px"
+            size="sm"
+            className="flex-shrink-0 rounded-lg bg-white px-6 text-[13.5px] font-bold text-brand-navy hover:-translate-y-px hover:bg-white"
           >
             {t("heroCta")}
-          </button>
+          </Button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

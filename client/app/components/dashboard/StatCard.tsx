@@ -1,5 +1,6 @@
 "use client";
 
+import { Card } from "@aegov/design-system-react";
 import { cn } from "../../lib/utils";
 
 interface StatCardProps {
@@ -18,7 +19,7 @@ const TONE_CLASSES: Record<NonNullable<StatCardProps["tone"]>, string> = {
 
 export function StatCard({ label, value, sub, tone = "neutral", className }: StatCardProps) {
   return (
-    <div className={cn("rounded-2xl border border-stroke bg-white p-5", className)}>
+    <Card variant="news" bordered className={cn("rounded-2xl border-stroke bg-white p-5", className)}>
       <div className="text-sm text-muted">{label}</div>
       <div className="mt-2 text-2xl font-bold text-brand-navy">{value}</div>
       {sub && (
@@ -26,6 +27,6 @@ export function StatCard({ label, value, sub, tone = "neutral", className }: Sta
           {sub}
         </span>
       )}
-    </div>
+    </Card>
   );
 }

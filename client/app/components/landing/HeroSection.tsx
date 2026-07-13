@@ -98,7 +98,7 @@ export function HeroSection() {
   }, [lang]);
 
   return (
-    <section className="relative flex min-h-screen items-end overflow-hidden bg-brand-navy text-white">
+    <section className="relative flex min-h-screen items-end overflow-hidden bg-[#1B2237] text-white">
       <LandingNav />
       <div ref={bgRef} className="absolute -inset-y-[10%] inset-x-0">
         <Image
@@ -109,7 +109,10 @@ export function HeroSection() {
           className="object-cover"
         />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/70 to-brand-navy/20" />
+      {/* Youth Leaders Path hero overlay: desaturated near-black navy (#1B2237)
+          instead of the saturated brand-navy (#070E43) so the bottom fade reads
+          as a neutral dark gradient rather than a blue glow. */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#1B2237] via-[#1B2237]/70 to-[#1B2237]/20" />
 
       <motion.div
         ref={contentRef}

@@ -1,7 +1,6 @@
 "use client";
 
-import { CheckCircle } from "@phosphor-icons/react";
-import { Input } from "@aegov/design-system-react";
+import { Input, Alert } from "@aegov/design-system-react";
 import type { StepProps } from "./types";
 
 export function GuardianDetailsStep({ values, errors, onChange, t }: Omit<StepProps, "lang">) {
@@ -30,11 +29,10 @@ export function GuardianDetailsStep({ values, errors, onChange, t }: Omit<StepPr
         />
       </div>
 
-      <div className="mt-5 flex items-start gap-3 rounded-2xl border border-stroke bg-surface-softer p-4">
-        <div className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-surface-accent text-brand">
-          <CheckCircle size={20} weight="bold" />
-        </div>
-        <p className="text-sm leading-relaxed text-ink-soft">{t("consentInfo")}</p>
+      <div className="mt-5">
+        <Alert variant="info" style="soft" size="sm">
+          {t("consentInfo")}
+        </Alert>
       </div>
     </div>
   );

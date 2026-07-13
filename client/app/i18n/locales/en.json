@@ -30,7 +30,20 @@
     "aboutTitleAccent": "digital leadership empowerment",
     "aboutLead": "Youth Leaders Path is a hybrid leadership journey by the Federal Youth Authority — combining digital innovation with experiential learning to develop future-ready Emirati youth.",
     "aboutBody": "Through the Leadership Digital Empowerment Platform, participants learn in a gamified, engaging way, document their growth responsibly, and stakeholders track impact in real time — from registration all the way to community impact projects.",
+    "aboutStory": "This isn't just a program — it's where a generation discovers who they are, and how far they can lead.",
     "aboutCta": "Join the journey",
+    "aboutCards": [
+      { "tag": "Personal record", "title": "Growth documentation & reflection", "points": ["Document progress in text, image and video", "Build an integrated personal leadership record", "Continuous reflection along the growth path"] },
+      { "tag": "Motivated learning", "title": "A fun, interactive journey", "points": ["Short videos and motivating quizzes", "XP points and leadership badges", "Learning that feels like a fun competition"] },
+      { "tag": "Guardian interface", "title": "Keeping parents engaged", "points": ["A dedicated interface to follow the journey", "Track impact and community projects", "Continuous communication via the platform"] },
+      { "tag": "Full transparency", "title": "Transparent, merit-based selection", "points": ["Standardized assessment across the six pillars", "Top 40 participants qualify", "Clear, published criteria"] }
+    ],
+    "aboutStats": [
+      { "value": "6", "label": "leadership pillars" },
+      { "value": "1,000+", "label": "participants nationwide" },
+      { "value": "Top 40", "label": "qualify for the experiential program" },
+      { "value": "2", "label": "age tracks (13–18)" }
+    ],
     "aboutPills": ["Gamified learning", "Two tracks: ages 13–14 & 15–18", "Arabic & English", "Real-time dashboards"],
     "aboutPoints": [
       { "icon": "lightning", "title": "An engaging, gamified journey", "desc": "Short videos, motivating quizzes, XP points and leadership badges turn learning into a fun competition." },
@@ -42,10 +55,43 @@
     "journeyTitle": "Three phases, one path",
     "journeySub": "The program is designed as one integrated journey: it starts digitally at national scale, deepens through hands-on experience, and its impact continues well beyond.",
     "journeyMapAlt": "Youth Leaders Path journey map",
+    "journeyPhases": [
+      {
+        "line": "It begins on your screen — and reaches every emirate.",
+        "highlights": [
+          "Gamified lessons across all six pillars",
+          "A baseline assessment that's fair and transparent",
+          "Open to 1000+ young Emiratis nationwide"
+        ]
+      },
+      {
+        "line": "The top 40 step off the screen and into the real world.",
+        "highlights": [
+          "8 immersive days in Ras Al Khaimah",
+          "Simulation workshops & field visits",
+          "\"Meet the Leaders\" mentorship sessions"
+        ]
+      },
+      {
+        "line": "The journey doesn't end — it turns into impact.",
+        "highlights": [
+          "Real-life community impact projects",
+          "Leadership habits tracked over 3 months",
+          "Parents stay engaged through the platform"
+        ]
+      }
+    ],
     "pillarsKicker": "LEADERSHIP PILLARS",
     "pillarsTitle": "Six pillars that shape a leader",
     "pillarsSub": "Each pillar is a full learning journey: short videos, gamified quizzes, action-based challenges, and reflections that document your growth.",
     "partnersTitle": "In partnership with leading national entities",
+    "impactKicker": "THE SELECTION",
+    "impactTitle": "From 1000 to the top 40",
+    "impactSub": "Every participant is assessed across the six pillars — fairly and transparently. The strongest 40 advance to the experiential program in Ras Al Khaimah.",
+    "impactStep1Label": "Participants nationwide",
+    "impactStep2Label": "Shortlisted on merit",
+    "impactStep3Label": "Top leaders to Ras Al Khaimah",
+    "impactEmirates": "Open across all 7 emirates",
     "ctaTitle": "Your seat among tomorrow's leaders awaits",
     "ctaSub": "Register now and start the digital assessment — the top 40 participants qualify for the experiential program in Ras Al Khaimah.",
     "ctaBtn": "Apply now",

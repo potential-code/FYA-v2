@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
+import { Card, Button } from "@aegov/design-system-react";
 import { pillars } from "@shared/content/pillars";
 import { mockChildProfile } from "@shared/content/mockDashboardData";
 import { useLanguage } from "../../context/LanguageContext";
@@ -26,8 +27,9 @@ export function ParticipantJourneyList({ onContinue }: { onContinue: () => void 
         const modules = t(`modules.${pillar.id}`, { returnObjects: true }) as ModuleEntry[];
 
         return (
-          <div
+          <Card
             key={pillar.id}
+            variant="news"
             className={`rounded-[18px] border-[1.5px] bg-white p-5.5 sm:p-6 ${
               current ? "border-brand" : "border-stroke-soft"
             } ${locked ? "opacity-60" : "opacity-100"}`}
@@ -84,15 +86,17 @@ export function ParticipantJourneyList({ onContinue }: { onContinue: () => void 
                     </span>
                   </div>
                 ))}
-                <button
+                <Button
                   onClick={onContinue}
-                  className="mt-1.5 self-start rounded-[11px] bg-brand px-7 py-3 text-sm font-bold text-white transition hover:bg-brand-dark"
+                  variant="solid"
+                  style="primary"
+                  className="mt-1.5 self-start rounded-[11px] px-7 font-bold hover:bg-brand-dark"
                 >
                   {t("continueCta")}
-                </button>
+                </Button>
               </div>
             )}
-          </div>
+          </Card>
         );
       })}
     </div>

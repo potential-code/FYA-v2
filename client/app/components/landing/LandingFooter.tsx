@@ -4,6 +4,7 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import Link from "next/link";
+import { Hyperlink } from "@aegov/design-system-react";
 
 const container: Variants = {
   hidden: {},
@@ -24,15 +25,18 @@ export function LandingFooter() {
 
   return (
     <footer className="relative overflow-hidden bg-brand-navy py-16 text-white">
+      {/* Actual logo watermark cropped to the symbol only (Arabic + English lines removed). */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute -end-24 -top-24"
-        initial={reduceMotion ? { opacity: 0.05 } : { opacity: 0 }}
-        whileInView={{ opacity: 0.05 }}
+        className="pointer-events-none absolute -end-16 -top-10"
+        initial={reduceMotion ? { opacity: 0.12 } : { opacity: 0 }}
+        whileInView={{ opacity: 0.12 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={reduceMotion ? { duration: 0 } : { duration: 1.4, ease: "easeOut" }}
       >
-        <Image src="/images/logo-white.png" alt="" width={480} height={480} />
+        <div className="h-[205px] w-[440px] overflow-hidden">
+          <Image src="/images/logo-white.png" alt="" width={880} height={676} className="w-full" />
+        </div>
       </motion.div>
 
       <motion.div
@@ -43,22 +47,23 @@ export function LandingFooter() {
         viewport={{ once: true, amount: 0.3 }}
       >
         <motion.div variants={item}>
-          <Image src="/images/logo-white.png" alt="Youth Leaders Path" width={160} height={40} className="h-8 w-auto object-contain" />
+          {/* Full actual logo (symbol + Arabic + English wordmark). */}
+          <Image src="/images/logo-white.png" alt="Youth Leaders Path" width={200} height={154} className="h-auto w-[140px]" />
           <p className="mt-4 max-w-sm text-sm text-white/70">{tl("footerAbout")}</p>
         </motion.div>
         <motion.div variants={item}>
           <h4 className="text-sm font-semibold text-white/90">{tl("footerCol1")}</h4>
-          <ul className="mt-4 space-y-2 text-sm text-white/60">
-            <li><a href="#about" className="transition-colors duration-200 hover:text-white">{tl("navAbout")}</a></li>
-            <li><a href="#journey" className="transition-colors duration-200 hover:text-white">{tl("navJourney")}</a></li>
-            <li><a href="#pillars" className="transition-colors duration-200 hover:text-white">{tl("navPillars")}</a></li>
+          <ul className="mt-4 space-y-2 text-sm">
+            <li><Hyperlink asChild className="!text-white/60 !no-underline transition-colors duration-200 hover:!text-white"><a href="#about">{tl("navAbout")}</a></Hyperlink></li>
+            <li><Hyperlink asChild className="!text-white/60 !no-underline transition-colors duration-200 hover:!text-white"><a href="#journey">{tl("navJourney")}</a></Hyperlink></li>
+            <li><Hyperlink asChild className="!text-white/60 !no-underline transition-colors duration-200 hover:!text-white"><a href="#pillars">{tl("navPillars")}</a></Hyperlink></li>
           </ul>
         </motion.div>
         <motion.div variants={item}>
           <h4 className="text-sm font-semibold text-white/90">{tl("footerCol2")}</h4>
-          <ul className="mt-4 space-y-2 text-sm text-white/60">
-            <li><Link href="/login" className="transition-colors duration-200 hover:text-white">{tc("login")}</Link></li>
-            <li><Link href="/sign-up" className="transition-colors duration-200 hover:text-white">{tc("registerNow")}</Link></li>
+          <ul className="mt-4 space-y-2 text-sm">
+            <li><Hyperlink asChild className="!text-white/60 !no-underline transition-colors duration-200 hover:!text-white"><Link href="/login">{tc("login")}</Link></Hyperlink></li>
+            <li><Hyperlink asChild className="!text-white/60 !no-underline transition-colors duration-200 hover:!text-white"><Link href="/sign-up">{tc("registerNow")}</Link></Hyperlink></li>
           </ul>
         </motion.div>
       </motion.div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
+import { Button } from "@aegov/design-system-react";
 
 const NAV_ITEMS = [
   { id: "dashboard", key: "navDash" },
@@ -20,10 +21,15 @@ export function ParticipantMobileTabBar({ active, onNavigate }: Props) {
       {NAV_ITEMS.map((item) => {
         const isActive = active === item.id;
         return (
-          <button key={item.id} onClick={() => onNavigate(item.id)} className="flex-1 py-2 text-center">
+          <Button
+            key={item.id}
+            onClick={() => onNavigate(item.id)}
+            variant="link"
+            className="h-auto flex-1 flex-col gap-0 rounded-none border-transparent px-0 py-2 text-center"
+          >
             <span className={`mx-auto mb-1.5 block h-2 w-2 rounded-full ${isActive ? "bg-brand" : "bg-stroke-strong"}`} />
             <span className={`text-[12.5px] ${isActive ? "font-bold text-brand-dark" : "font-medium text-muted"}`}>{t(item.key)}</span>
-          </button>
+          </Button>
         );
       })}
     </div>

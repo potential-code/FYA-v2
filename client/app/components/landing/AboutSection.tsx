@@ -4,13 +4,39 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@aegov/design-system-react";
+import { Check } from "@phosphor-icons/react";
+import { Button, Card } from "@aegov/design-system-react";
+
+interface AboutCard {
+  tag: string;
+  title: string;
+  points: string[];
+}
+
+interface AboutStat {
+  value: string;
+  label: string;
+}
+
+// Two brand-palette tints (peach + periwinkle) laid out as a checkerboard across
+// the 2×2 grid — index order [peach, periwinkle, periwinkle, peach].
+const TINTS = [
+  {
+    card: "border-[#EDE0CB] bg-[#FBF4EA]",
+    tag: "bg-[#F1E3CB] text-[#8A6A2E]",
+    check: "bg-[#F1E3CB] text-[#B07A2A]",
+  },
+  {
+    card: "border-[#DCE2F7] bg-[#F2F4FD]",
+    tag: "bg-[#E2E8FB] text-brand-dark",
+    check: "bg-[#E2E8FB] text-brand",
+  },
+] as const;
+const TINT_ORDER = [0, 1, 1, 0];
 
 const container: Variants = {
   hidden: {},
-  show: {
-    transition: { staggerChildren: 0.12 },
-  },
+  show: { transition: { staggerChildren: 0.1 } },
 };
 
 const item: Variants = {
@@ -20,77 +46,136 @@ const item: Variants = {
 
 export function AboutSection() {
   const { t } = useTranslation("translation", { keyPrefix: "landing" });
-  const pills = t("aboutPills", { returnObjects: true }) as string[];
+  const cards = t("aboutCards", { returnObjects: true }) as AboutCard[];
+  const stats = t("aboutStats", { returnObjects: true }) as AboutStat[];
   const reduceMotion = useReducedMotion();
 
   return (
     <section id="about" className="mx-auto max-w-6xl px-6 py-24 md:px-12">
-      <div className="grid gap-14 md:grid-cols-2 md:items-center">
+      <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+        {/* Text + feature cards */}
         <motion.div
           variants={container}
           initial={reduceMotion ? false : "hidden"}
           whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.2 }}
         >
-          <motion.span variants={item} className="text-sm font-semibold uppercase tracking-wide text-brand">
+          <motion.span variants={item} className="text-xs font-bold uppercase tracking-wide text-brand">
             {t("aboutKicker")}
           </motion.span>
-          <motion.h2 variants={item} className="mt-3 text-3xl font-bold text-brand-navy md:text-4xl">
-            {t("aboutTitle1")} <span className="text-brand">{t("aboutTitleAccent")}</span>
-          </motion.h2>
-          <motion.p variants={item} className="mt-5 text-lg font-medium text-ink">
+
+          <motion.div variants={item} className="relative mt-3">
+            {/* Brand arch motif overlapping the first letter of the heading */}
+            <Image
+              src="/images/branding-motifs/brand-arch-small-peach.png"
+              alt=""
+              aria-hidden
+              width={120}
+              height={120}
+              className="pointer-events-none absolute -top-4 right-0 z-0 h-12 w-12 select-none"
+            />
+            <h2 className="relative z-10 text-2xl font-bold leading-tight text-brand-navy md:text-[32px]">
+              {t("aboutTitle1")}{" "}
+              <span className="bg-gradient-to-l from-brand to-brand-light bg-clip-text text-transparent">
+                {t("aboutTitleAccent")}
+              </span>
+            </h2>
+          </motion.div>
+
+          <motion.p variants={item} className="mt-4 text-[15px] leading-relaxed text-ink-soft">
             {t("aboutLead")}
           </motion.p>
-          <motion.p variants={item} className="mt-4 text-ink-soft">
-            {t("aboutBody")}
-          </motion.p>
 
-          <motion.div variants={item} className="mt-6 flex flex-wrap gap-2">
-            {pills.map((label) => (
-              <motion.span
-                key={label}
-                whileHover={{ scale: 1.03, boxShadow: "0 8px 20px rgba(99,128,211,0.18)" }}
-                whileTap={{ scale: 0.98 }}
-                transition={reduceMotion ? { duration: 0 } : { duration: 0.2, ease: "easeOut" }}
-                className="rounded-full border border-stroke bg-surface-soft px-3.5 py-1.5 text-xs font-medium text-ink-soft"
-              >
-                {label}
-              </motion.span>
-            ))}
-          </motion.div>
-
-          <motion.div variants={item} className="mt-8">
-            <Link href="/sign-up" className="inline-block">
-              <motion.div
-                className="inline-block"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 25 }}
-              >
-                <Button variant="solid" style="primary">
-                  {t("aboutCta")}
-                </Button>
-              </motion.div>
-            </Link>
-          </motion.div>
+          <div className="mt-7 grid gap-3.5 sm:grid-cols-2">
+            {cards.map((card, i) => {
+              const tint = TINTS[TINT_ORDER[i]];
+              return (
+                <motion.div key={card.tag} variants={item}>
+                  <Card
+                    variant="news"
+                    bordered
+                    className={`h-full rounded-2xl p-4 transition-shadow duration-300 hover:shadow-[0_14px_36px_rgba(99,128,211,0.12)] ${tint.card}`}
+                  >
+                    <span className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold ${tint.tag}`}>
+                      {card.tag}
+                    </span>
+                    <h3 className="mt-2.5 text-[14px] font-bold text-brand-navy">{card.title}</h3>
+                    <ul className="mt-2 space-y-1.5">
+                      {card.points.map((point) => (
+                        <li key={point} className="flex items-start gap-2 text-[12px] leading-snug text-ink-soft">
+                          <span className={`mt-px flex h-4 w-4 flex-none items-center justify-center rounded ${tint.check}`}>
+                            <Check size={11} weight="bold" />
+                          </span>
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </Card>
+                </motion.div>
+              );
+            })}
+          </div>
         </motion.div>
 
+        {/* Image — pointed (sharp) top-left corner only, rounded on every other side */}
         <motion.div
-          initial={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.94 }}
+          initial={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          whileHover={reduceMotion ? undefined : { scale: 1.03 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={reduceMotion ? { duration: 0 } : { duration: 0.6 }}
-          className="relative overflow-hidden rounded-3xl"
+          className="relative overflow-hidden rounded-tl-[90px] shadow-[0_24px_60px_rgba(7,14,67,0.12)] lg:sticky lg:top-24"
         >
           <Image
             src="/images/about-platform.png"
             alt={t("aboutImgAlt")}
             width={640}
-            height={720}
-            className="h-auto w-full rounded-3xl object-cover"
+            height={760}
+            className="h-full w-full object-cover"
           />
         </motion.div>
+      </div>
+
+      {/* Stat bar — soft peach → periwinkle gradient */}
+      <motion.div
+        initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={reduceMotion ? { duration: 0 } : { duration: 0.6 }}
+        className="mt-10"
+      >
+        <Card
+          variant="news"
+          className="overflow-hidden rounded-[28px] bg-gradient-to-r from-[#F5E1CB] via-[#C7C3DF] to-[#8E99D5] p-0 shadow-[0_20px_50px_rgba(110,130,205,0.22)]"
+        >
+          <div className="grid grid-cols-2 gap-y-7 py-8 md:grid-cols-4 md:divide-x md:divide-white/30 md:rtl:divide-x-reverse">
+            {stats.map((stat) => (
+              <div key={stat.label} className="px-6 text-center text-white">
+                <div className="text-4xl font-bold leading-tight [text-shadow:0_4px_14px_rgba(7,14,67,0.65),0_2px_4px_rgba(7,14,67,0.55)] md:text-[52px]">
+                  {stat.value}
+                </div>
+                <div className="mt-2 text-[12.5px] font-medium leading-snug text-white [text-shadow:0_2px_8px_rgba(7,14,67,0.6),0_1px_2px_rgba(7,14,67,0.5)]">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </motion.div>
+
+      {/* CTA */}
+      <div className="mt-9 flex justify-center">
+        <Link href="/sign-up">
+          <motion.div
+            className="inline-block"
+            whileHover={reduceMotion ? undefined : { scale: 1.03 }}
+            whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+            transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 25 }}
+          >
+            <Button variant="solid" style="primary" size="lg">
+              {t("aboutCta")}
+            </Button>
+          </motion.div>
+        </Link>
       </div>
     </section>
   );

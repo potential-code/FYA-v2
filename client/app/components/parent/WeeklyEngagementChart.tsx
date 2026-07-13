@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { weeklyEngagementDays } from "@shared/content/mockDashboardData";
+import { Card } from "@aegov/design-system-react";
 import { useLanguage } from "../../context/LanguageContext";
 
 export function WeeklyEngagementChart() {
@@ -11,7 +12,7 @@ export function WeeklyEngagementChart() {
   const maxMinutes = Math.max(...weeklyEngagementDays.map((d) => d.minutes), 1);
 
   return (
-    <div className="rounded-[18px] border border-stroke-soft bg-white p-5 md:p-6">
+    <Card variant="news" bordered className="rounded-[18px] border-stroke-soft bg-white p-5 md:p-6">
       <div className="mb-4 text-base font-bold text-brand-navy">{t("weekTitle")}</div>
       <div className="mb-2.5 flex h-[76px] items-end gap-2">
         {weeklyEngagementDays.map((d, i) => {
@@ -33,6 +34,6 @@ export function WeeklyEngagementChart() {
         })}
       </div>
       <div className="text-xs text-muted">{t("weekSub")}</div>
-    </div>
+    </Card>
   );
 }

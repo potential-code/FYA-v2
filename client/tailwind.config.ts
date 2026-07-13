@@ -34,12 +34,14 @@ export default {
         // Youth Leaders Path brand palette — kept in its own `brand-*` namespace
         // (not `primary`/`secondary`) so it never collides with AEGov's own
         // component color tokens.
+        // Official Youth Leaders Path brand palette (sampled from the brand
+        // deck): primary periwinkle #6E82CD + deep navy #070E43.
         brand: {
-          light: "#8FA6E5",
-          DEFAULT: "#6380D3",
-          dark: "#4E6BC4",
-          darker: "#3D56A6",
-          navy: "#1B2237",
+          light: "#9AA8E2",
+          DEFAULT: "#6E82CD",
+          dark: "#566BC0",
+          darker: "#3B4A8F",
+          navy: "#070E43",
         },
         ink: {
           DEFAULT: "#2A3040",
@@ -64,6 +66,27 @@ export default {
         warning: { DEFAULT: "#D9A45B", dark: "#B07A2A" },
         danger: { DEFAULT: "#D66A6E", dark: "#B4383D" },
 
+        // Official brand SECONDARY colors (from the brand deck).
+        sage: { light: "#CFCDA6", DEFAULT: "#B8B684", dark: "#9A9868" },
+        peach: { light: "#F8E6D2", DEFAULT: "#F4D7B9", dark: "#E9C29A" },
+
+        // Per-pillar accent system — BRAND-ONLY. Every value is a color already
+        // defined elsewhere in this palette (brand blue family + the defined
+        // success/warning/danger accents); nothing outside the approved brand
+        // colors is introduced. Keyed to `pillar.id` in `app/lib/pillarAccents.ts`
+        // (the single source of truth for WebGL / glow / CSS).
+        // Cycles the official brand colors (readable on the dark navy pillars
+        // chapter). Navy is the section canvas, so accents cycle periwinkle /
+        // peach / sage / gray + two periwinkle-family tints. See pillarAccents.ts.
+        pillar: {
+          identity: "#6E82CD", // 1 · periwinkle
+          discipline: "#F4D7B9", // 2 · peach
+          communication: "#B8B684", // 3 · sage
+          leadership: "#E2E2E2", // 4 · light gray
+          initiative: "#9AA8E2", // 5 · periwinkle-light
+          future: "#566BC0", // 6 · periwinkle-deep
+        },
+
         // AEGov Design System token overrides — these keys match AEGov's own
         // component color tokens exactly (primary, secondary, aered, aegreen,
         // camel, techblue, aegold, aeblack, whitely). AEGov ships a fully
@@ -76,17 +99,17 @@ export default {
         // defaults. Same override mechanism already used for the Milligram
         // font override in this file.
         primary: {
-          50: "#F2F5FD",
-          100: "#E3E9FA",
-          200: "#C7D3F4",
-          300: "#ABBBED",
-          400: "#8FA6E5",
-          500: "#768FDA",
-          550: "#6D88D7",
-          600: "#6380D3",
-          700: "#4E6BC4",
-          800: "#3D56A6",
-          900: "#32447B",
+          50: "#F2F4FD",
+          100: "#E4E8FA",
+          200: "#CBD3F3",
+          300: "#B2BDEC",
+          400: "#9AA8E2",
+          500: "#8092DA",
+          550: "#7787D4",
+          600: "#6E82CD",
+          700: "#566BC0",
+          800: "#3B4A8F",
+          900: "#2A3670",
         },
         secondary: {
           50: "#F4F6FD",
@@ -95,11 +118,11 @@ export default {
           300: "#98ABE7",
           400: "#6F89D7",
           500: "#4A68C5",
-          600: "#3A529C",
-          700: "#2B3963",
-          800: "#1B2237",
-          900: "#131825",
-          950: "#0C0E15",
+          600: "#33449A",
+          700: "#1B2A6B",
+          800: "#070E43",
+          900: "#050A2E",
+          950: "#03061F",
         },
         "primary-support": { 300: "#ECD2AC", 400: "#E5C08B" },
         "secondary-support": { 300: "#ABBBED" },
@@ -114,8 +137,8 @@ export default {
           600: "#D9A45B",
           700: "#B07A2A",
         },
-        techblue: { 50: "#F2F5FD", 600: "#6380D3", 700: "#4E6BC4" },
-        aegold: { 450: "#839AE0", 600: "#6380D3", 700: "#4E6BC4" },
+        techblue: { 50: "#F2F4FD", 600: "#6E82CD", 700: "#566BC0" },
+        aegold: { 450: "#9AA8E2", 600: "#6E82CD", 700: "#566BC0" },
         aeblack: {
           50: "#F7F9FE",
           100: "#EFF3FD",
@@ -136,9 +159,38 @@ export default {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.45" },
         },
+        // Cinematic landing motifs — a slow luminous breathing used on the
+        // accent glows/orbs behind the dark sections, plus a gentle float and
+        // a shimmering conic sweep for the pillar constellation.
+        glowBreathe: {
+          "0%, 100%": { opacity: "0.55", transform: "scale(1)" },
+          "50%": { opacity: "0.9", transform: "scale(1.08)" },
+        },
+        floatSlow: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-14px)" },
+        },
+        sheen: {
+          "0%": { backgroundPosition: "200% 0" },
+          "100%": { backgroundPosition: "-200% 0" },
+        },
+        spinSlow: {
+          to: { transform: "rotate(360deg)" },
+        },
+        scrollHint: {
+          "0%": { transform: "translateY(0)", opacity: "0" },
+          "30%": { opacity: "1" },
+          "60%": { transform: "translateY(9px)", opacity: "1" },
+          "100%": { transform: "translateY(14px)", opacity: "0" },
+        },
       },
       animation: {
         "pulse-soft": "pulseSoft 2s ease-in-out infinite",
+        "glow-breathe": "glowBreathe 7s ease-in-out infinite",
+        "float-slow": "floatSlow 6s ease-in-out infinite",
+        sheen: "sheen 6s linear infinite",
+        "spin-slow": "spinSlow 32s linear infinite",
+        "scroll-hint": "scrollHint 1.8s ease-in-out infinite",
       },
     },
   },

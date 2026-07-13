@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChartBar, House, Users } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
+import { Button, Hyperlink } from "@aegov/design-system-react";
 import { cn } from "../../lib/utils";
 
 export type AdminScreen = "overview" | "participants" | "analytics";
@@ -34,24 +35,26 @@ export function AdminSidebar({ screen, onScreenChange }: AdminSidebarProps) {
             const Icon = item.icon;
             const active = screen === item.id;
             return (
-              <button
+              <Button
                 key={item.id}
                 onClick={() => onScreenChange(item.id)}
+                block
+                variant="link"
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition",
+                  "h-auto justify-start gap-3 rounded-lg border-transparent px-3 py-2.5 text-sm font-medium",
                   active ? "bg-white/[0.14] text-white" : "text-white/65 hover:bg-white/5 hover:text-white",
                 )}
               >
                 <Icon size={18} weight={active ? "fill" : "regular"} />
                 {t(item.key)}
-              </button>
+              </Button>
             );
           })}
         </nav>
 
-        <Link href="/" className="mt-auto text-sm text-white/60 hover:text-white">
-          {t("siteLink")}
-        </Link>
+        <Hyperlink asChild className="mt-auto text-sm !text-white/60 !no-underline transition hover:!text-white">
+          <Link href="/">{t("siteLink")}</Link>
+        </Hyperlink>
 
         <div className="mt-4 flex items-center gap-3 border-t border-white/10 pt-4">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand text-sm font-bold">
@@ -70,14 +73,15 @@ export function AdminSidebar({ screen, onScreenChange }: AdminSidebarProps) {
           const Icon = item.icon;
           const active = screen === item.id;
           return (
-            <button
+            <Button
               key={item.id}
               onClick={() => onScreenChange(item.id)}
-              className="flex flex-1 flex-col items-center gap-1 py-2 text-[11px] font-medium"
+              variant="link"
+              className="h-auto flex-1 flex-col gap-1 rounded-none border-transparent px-0 py-2 text-[11px] font-medium"
             >
               <Icon size={20} weight={active ? "fill" : "regular"} className={active ? "text-brand" : "text-muted"} />
               <span className={active ? "text-brand" : "text-muted"}>{t(item.key)}</span>
-            </button>
+            </Button>
           );
         })}
       </nav>

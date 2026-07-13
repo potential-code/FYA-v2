@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { Card } from "@aegov/design-system-react";
 import { mockChildProfile } from "@shared/content/mockDashboardData";
 
 export function ChildProgressHeader() {
@@ -9,11 +10,15 @@ export function ChildProgressHeader() {
   const pct = mockChildProfile.overallProgressPct;
 
   return (
+    <Card
+      asChild
+      variant="news"
+      className="relative mb-5 flex flex-col gap-6 overflow-hidden rounded-[20px] bg-gradient-to-br from-brand-navy via-[#2E4494] to-brand-dark p-6 text-white sm:flex-row sm:items-center sm:gap-7 md:p-8"
+    >
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="relative mb-5 flex flex-col gap-6 overflow-hidden rounded-[20px] bg-gradient-to-br from-brand-navy via-[#2E4494] to-brand-dark p-6 text-white sm:flex-row sm:items-center sm:gap-7 md:p-8"
     >
       <div className="flex flex-shrink-0 h-16 w-16 items-center justify-center rounded-full border-2 border-white/45 bg-white/20 text-2xl font-bold md:h-[72px] md:w-[72px]">
         {t("childInitial")}
@@ -45,6 +50,7 @@ export function ChildProgressHeader() {
         </div>
       </div>
     </motion.div>
+    </Card>
   );
 }
 

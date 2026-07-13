@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import gsap from "gsap";
 import { phases } from "@shared/content/phases";
+import { Card } from "@aegov/design-system-react";
 import { useLanguage } from "../../context/LanguageContext";
 import { ensureGsapRegistered } from "../../lib/gsapConfig";
 import { useGsapMatchMedia } from "../../hooks/useGsapMatchMedia";
@@ -13,6 +14,11 @@ export function JourneySection() {
   const { t } = useTranslation("translation", { keyPrefix: "landing" });
   const { lang } = useLanguage();
   const isArabic = lang === "ar";
+  // Split the heading so the first word can carry the peach arch motif accent.
+  const journeyTitle = t("journeyTitle");
+  const jtSpace = journeyTitle.indexOf(" ");
+  const jtFirst = jtSpace === -1 ? journeyTitle : journeyTitle.slice(0, jtSpace);
+  const jtRest = jtSpace === -1 ? "" : journeyTitle.slice(jtSpace);
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const mapWrapRef = useRef<HTMLDivElement>(null);
@@ -162,7 +168,20 @@ export function JourneySection() {
       <div className="mx-auto max-w-6xl px-6 md:px-12">
         <div ref={headerRef} className="mx-auto max-w-2xl text-center">
           <span className="text-sm font-semibold uppercase tracking-wide text-brand">{t("journeyKicker")}</span>
-          <h2 className="mt-3 text-3xl font-bold text-brand-navy md:text-4xl">{t("journeyTitle")}</h2>
+          <h2 className="mt-3 text-3xl font-bold text-brand-navy md:text-4xl">
+            <span className="relative inline-block">
+              <Image
+                src="/images/branding-motifs/brand-arch-small-peach.png"
+                alt=""
+                aria-hidden
+                width={80}
+                height={80}
+                className="pointer-events-none absolute -right-5 -top-5 z-0 h-14 w-14 select-none"
+              />
+              <span className="relative z-10">{jtFirst}</span>
+            </span>
+            {jtRest}
+          </h2>
           <p className="mt-4 text-ink-soft">{t("journeySub")}</p>
         </div>
 
@@ -170,9 +189,14 @@ export function JourneySection() {
           {phases.map((phase) => (
             <div
               key={phase.id}
-              data-phase-card
-              className="group overflow-hidden rounded-2xl border border-stroke bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_rgba(99,128,211,0.16)]"
+              className="h-full rounded-[18px] bg-gradient-to-br from-[#F4D7B9] via-[#C6BEDD] to-brand p-[2px] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_rgba(99,128,211,0.16)]"
             >
+            <Card
+              asChild
+              variant="news"
+              className="flex h-full flex-col overflow-hidden rounded-2xl bg-white p-0 shadow-sm"
+            >
+              <div data-phase-card>
               <div className="relative h-44 w-full overflow-hidden">
                 <div data-phase-image className="absolute inset-0">
                   <Image
@@ -203,6 +227,8 @@ export function JourneySection() {
                   {phase.desc[lang]}
                 </p>
               </div>
+              </div>
+            </Card>
             </div>
           ))}
         </div>

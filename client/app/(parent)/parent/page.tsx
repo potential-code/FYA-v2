@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Card, Button, Hyperlink } from "@aegov/design-system-react";
 import i18n from "../../i18n/i18n";
 import parentAr from "../../i18n/locales/parent.ar.json";
 import parentEn from "../../i18n/locales/parent.en.json";
@@ -46,19 +47,19 @@ export default function ParentPortalPage() {
           </div>
         </nav>
 
-        <div className="relative mt-7 rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur-sm">
+        <Card variant="news" className="relative mt-7 rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur-sm">
           <div className="mb-1.5 text-[13px] opacity-80">{t("sideCardKicker")}</div>
           <div className="mb-3.5 text-[15.5px] font-bold leading-snug">{t("sideCardTitle")}</div>
           <div className="mb-2 h-1.5 overflow-hidden rounded-full bg-white/25">
             <div className="h-full w-[42%] rounded-full bg-white" />
           </div>
           <div className="text-[12.5px] opacity-80">{t("sideCardPct")}</div>
-        </div>
+        </Card>
 
         <div className="relative mt-auto flex flex-col gap-3.5 pt-6">
-          <Link href="/participant" className="px-2.5 text-[13px] text-white/65 transition hover:text-white">
-            {t("participantLink")}
-          </Link>
+          <Hyperlink asChild className="px-2.5 text-[13px] !text-white/65 !no-underline transition hover:!text-white">
+            <Link href="/participant">{t("participantLink")}</Link>
+          </Hyperlink>
           <div className="flex items-center gap-2.5 rounded-2xl border border-white/15 bg-white/10 px-3 py-2.5 backdrop-blur-sm">
             <div className="flex h-[38px] w-[38px] flex-shrink-0 items-center justify-center rounded-full bg-white text-[15px] font-bold text-brand-dark">
               {t("parentInitial")}
@@ -79,12 +80,15 @@ export default function ParentPortalPage() {
           </div>
           <div className="hidden text-xl font-bold text-brand-navy md:block">{t("navOverview")}</div>
           <div className="flex items-center gap-3.5">
-            <button
+            <Button
               onClick={toggleLang}
-              className="rounded-full border border-stroke-strong px-3 py-1.5 text-xs font-bold text-brand-dark transition hover:bg-surface-accent"
+              variant="outline"
+              style="secondary"
+              size="xs"
+              className="rounded-full"
             >
               {i18n.language === "ar" ? "EN" : "ع"}
-            </button>
+            </Button>
             <div className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-brand-navy text-[15px] font-bold text-white">
               {t("parentInitial")}
             </div>

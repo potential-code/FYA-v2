@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { Input, Button } from "@aegov/design-system-react";
 import i18n from "../../i18n/i18n";
 import adminAr from "../../i18n/locales/admin.ar.json";
 import adminEn from "../../i18n/locales/admin.en.json";
@@ -34,17 +35,20 @@ export default function AdminDashboardPage() {
         <header className="flex items-center justify-between gap-4 border-b border-stroke bg-white px-6 py-4">
           <h1 className="text-lg font-bold text-brand-navy">{t(SCREEN_TITLE_KEY[screen])}</h1>
           <div className="flex items-center gap-3">
-            <input
-              type="search"
-              placeholder={t("searchPh")}
-              className="hidden w-56 rounded-full border border-stroke-strong bg-surface-soft px-4 py-2 text-sm outline-none focus:border-brand sm:block"
-            />
-            <button
+            <div className="hidden w-56 sm:block">
+              <Input type="search" placeholder={t("searchPh")} aria-label={t("searchPh")} />
+            </div>
+            <Button
               onClick={toggleLang}
-              className="rounded-full border border-stroke-strong px-3 py-1.5 text-xs font-semibold text-ink-soft hover:bg-surface-soft"
+              variant="soft"
+              style="secondary"
+              size="xs"
+              isIcon
+              className="rounded-full"
+              aria-label="Toggle language"
             >
               {t("adminName").charAt(0)}
-            </button>
+            </Button>
           </div>
         </header>
 

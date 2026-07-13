@@ -3,6 +3,7 @@
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import { pillars } from "@shared/content/pillars";
+import { Card } from "@aegov/design-system-react";
 import { useLanguage } from "../../context/LanguageContext";
 import { fmtNum } from "../../lib/utils";
 import { ProgressBar } from "../dashboard/ProgressBar";
@@ -16,7 +17,7 @@ export function PillarProgressList() {
   const { lang } = useLanguage();
 
   return (
-    <div className="rounded-[18px] border border-stroke-soft bg-white p-6 md:p-[26px]">
+    <Card variant="news" bordered className="rounded-[18px] border-stroke-soft bg-white p-6 md:p-[26px]">
       <div className="mb-1.5 text-[17px] font-bold text-brand-navy">{t("pillarsTitle")}</div>
       <div className="mb-5 text-sm text-muted">{t("pillarsSub")}</div>
       <div className="flex flex-col gap-4">
@@ -43,6 +44,6 @@ export function PillarProgressList() {
           );
         })}
       </div>
-    </div>
+    </Card>
   );
 }

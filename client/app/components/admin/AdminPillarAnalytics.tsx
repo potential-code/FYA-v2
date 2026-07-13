@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { Card } from "@aegov/design-system-react";
 import { pillars } from "@shared/content/pillars";
 import { pillarAverageScores, pillarScoreDeltas, pillarScoreDistribution, trackComparisonScores } from "@shared/content/mockDashboardData";
 import { useLanguage } from "../../context/LanguageContext";
@@ -18,12 +19,17 @@ export function AdminPillarAnalytics() {
         {pillars.map((pillar, i) => {
           const [low, mid, high] = pillarScoreDistribution[i];
           return (
-            <motion.div
+            <Card
               key={pillar.id}
+              asChild
+              variant="news"
+              bordered
+              className="overflow-hidden rounded-2xl border-stroke bg-white p-0"
+            >
+            <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.4 }}
-              className="overflow-hidden rounded-2xl border border-stroke bg-white"
             >
               <div className="relative h-28 w-full">
                 <Image src={`/images/pillar-${i + 1}.png`} alt={pillar.title[lang]} fill className="object-cover" />
@@ -49,11 +55,12 @@ export function AdminPillarAnalytics() {
                 </div>
               </div>
             </motion.div>
+            </Card>
           );
         })}
       </div>
 
-      <div className="rounded-2xl border border-stroke bg-white p-6">
+      <Card variant="news" bordered className="rounded-2xl border-stroke bg-white p-6">
         <h3 className="text-base font-bold text-brand-navy">{t("trackCompTitle")}</h3>
         <p className="mt-1 text-sm text-muted">{t("trackCompSub")}</p>
         <div className="mt-6 space-y-4">
@@ -87,7 +94,7 @@ export function AdminPillarAnalytics() {
           <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-brand-light" /> Track A</span>
           <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-brand-dark" /> Track B</span>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

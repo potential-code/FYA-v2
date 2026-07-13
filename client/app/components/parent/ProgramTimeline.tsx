@@ -2,6 +2,7 @@
 
 import { useTranslation } from "react-i18next";
 import { phases } from "@shared/content/phases";
+import { Card } from "@aegov/design-system-react";
 import { useLanguage } from "../../context/LanguageContext";
 
 // Phase 0 is "current", phase 1 is "next", phase 2 is "later" — matches the
@@ -14,7 +15,7 @@ export function ProgramTimeline() {
   const chips = t("phaseChips", { returnObjects: true }) as Record<string, string>;
 
   return (
-    <div className="rounded-[18px] border border-stroke-soft bg-white p-6 md:p-[26px]">
+    <Card variant="news" bordered className="rounded-[18px] border-stroke-soft bg-white p-6 md:p-[26px]">
       <div className="mb-5 text-[17px] font-bold text-brand-navy">{t("timelineTitle")}</div>
       <div className="flex flex-col">
         {phases.map((phase, i) => {
@@ -53,6 +54,6 @@ export function ProgramTimeline() {
           );
         })}
       </div>
-    </div>
+    </Card>
   );
 }

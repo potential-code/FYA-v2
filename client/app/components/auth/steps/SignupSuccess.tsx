@@ -4,16 +4,22 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { Check } from "@phosphor-icons/react";
+import { Card, Button } from "@aegov/design-system-react";
 
 export function SignupSuccess({ firstName, parentEmail }: { firstName: string; parentEmail: string }) {
   const { t } = useTranslation("translation", { keyPrefix: "signup" });
 
   return (
+    <Card
+      asChild
+      variant="news"
+      bordered
+      className="w-full max-w-xl rounded-2xl border-stroke bg-white p-10 text-center shadow-sm md:p-12"
+    >
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="w-full max-w-xl rounded-2xl border border-stroke bg-white p-10 text-center shadow-sm md:p-12"
     >
       <div className="mx-auto flex h-[76px] w-[76px] items-center justify-center rounded-full border-2 border-success/30 bg-success/10 text-success-dark">
         <Check size={32} weight="bold" />
@@ -67,9 +73,10 @@ export function SignupSuccess({ firstName, parentEmail }: { firstName: string; p
         </div>
       </div>
 
-      <Link href="/" className="mt-8 inline-block text-sm font-bold text-brand transition hover:underline">
-        {t("backHome")}
-      </Link>
+      <Button asChild variant="link" style="primary" size="sm" className="mt-8">
+        <Link href="/">{t("backHome")}</Link>
+      </Button>
     </motion.div>
+    </Card>
   );
 }

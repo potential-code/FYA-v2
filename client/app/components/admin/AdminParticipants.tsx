@@ -8,7 +8,7 @@ import { tracks } from "@shared/content/tracks";
 import { useLanguage } from "../../context/LanguageContext";
 import { ProgressBar } from "../dashboard/ProgressBar";
 import { StatusPill } from "../dashboard/StatusPill";
-import { cn, fmtNum } from "../../lib/utils";
+import { fmtNum } from "../../lib/utils";
 
 const FILTERS: { id: "all" | ParticipantStatus; key: string }[] = [
   { id: "all", key: "filterAll" },
@@ -39,19 +39,19 @@ export function AdminParticipants() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap gap-2">
           {FILTERS.map((f) => (
-            <button
+            <Button
               key={f.id}
               onClick={() => {
                 setFilter(f.id);
                 setPage(1);
               }}
-              className={cn(
-                "rounded-full border px-3.5 py-1.5 text-sm font-medium transition",
-                filter === f.id ? "border-brand bg-brand text-white" : "border-stroke-strong bg-white text-ink-soft hover:bg-surface-soft",
-              )}
+              variant={filter === f.id ? "solid" : "soft"}
+              style={filter === f.id ? "primary" : "secondary"}
+              size="xs"
+              className="rounded-full"
             >
               {t(f.key)}
-            </button>
+            </Button>
           ))}
         </div>
         <div className="flex gap-2">
@@ -103,7 +103,9 @@ export function AdminParticipants() {
                     <StatusPill label={t(`status${student.status.charAt(0).toUpperCase() + student.status.slice(1)}`)} tone={STATUS_TONE[student.status]} />
                   </td>
                   <td className="px-5 py-3.5 text-end">
-                    <button className="text-xs font-semibold text-brand">{t("view")}</button>
+                    <Button variant="link" style="primary" size="xs" className="h-auto px-0 text-xs font-semibold">
+                      {t("view")}
+                    </Button>
                   </td>
                 </tr>
               );

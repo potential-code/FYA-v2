@@ -2,6 +2,7 @@
 
 import { useTranslation } from "react-i18next";
 import { CheckCircle, Star, PlayCircle } from "@phosphor-icons/react";
+import { Card } from "@aegov/design-system-react";
 
 interface FeedItem {
   text: string;
@@ -20,7 +21,7 @@ export function ActivityFeed() {
   const feed = t("feed", { returnObjects: true }) as FeedItem[];
 
   return (
-    <div className="rounded-[18px] border border-stroke-soft bg-white p-5 md:p-6">
+    <Card variant="news" bordered className="rounded-[18px] border-stroke-soft bg-white p-5 md:p-6">
       <div className="mb-4 text-base font-bold text-brand-navy">{t("feedTitle")}</div>
       <div className="flex flex-col gap-3.5">
         {feed.map((item, i) => {
@@ -38,7 +39,7 @@ export function ActivityFeed() {
           );
         })}
       </div>
-    </div>
+    </Card>
   );
 }
 
@@ -46,7 +47,7 @@ export function MentorNote() {
   const { t } = useTranslation("translation", { keyPrefix: "parent" });
 
   return (
-    <div className="rounded-[18px] border border-stroke-strong bg-surface-accent p-5 md:p-6">
+    <Card variant="news" bordered className="rounded-[18px] border-stroke-strong bg-surface-accent p-5 md:p-6">
       <div className="mb-3 flex items-center gap-2.5">
         <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full bg-brand text-sm font-bold text-white">
           {t("mentorInitial")}
@@ -57,6 +58,6 @@ export function MentorNote() {
         </div>
       </div>
       <div className="text-sm leading-relaxed text-ink">{t("mentorNote")}</div>
-    </div>
+    </Card>
   );
 }

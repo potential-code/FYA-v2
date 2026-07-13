@@ -15,6 +15,7 @@ import { PillarProgressList } from "../../components/participant/PillarProgressL
 import { NextUpCard } from "../../components/participant/NextUpCard";
 import { WeeklyChallengeCard } from "../../components/participant/WeeklyChallengeCard";
 import { ParticipantJourneyList } from "../../components/participant/ParticipantJourneyList";
+import { Card } from "@aegov/design-system-react";
 import { mockChildProfile } from "@shared/content/mockDashboardData";
 import { fmtNum } from "../../lib/utils";
 import { useLanguage } from "../../context/LanguageContext";
@@ -83,7 +84,7 @@ export default function ParticipantPortalPage() {
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="mb-5 flex flex-col items-start justify-between gap-5 rounded-[18px] border border-stroke-soft bg-white p-6 sm:flex-row sm:items-center">
+                <Card variant="news" bordered className="mb-5 flex flex-col items-start justify-between gap-5 rounded-[18px] border-stroke-soft bg-white p-6 sm:flex-row sm:items-center">
                   <div>
                     <div className="mb-1 text-[17px] font-bold text-brand-navy">{t("journeyHeadTitle")}</div>
                     <div className="text-sm text-muted">{t("journeyHeadSub")}</div>
@@ -100,7 +101,7 @@ export default function ParticipantPortalPage() {
                       />
                     </div>
                   </div>
-                </div>
+                </Card>
 
                 <ParticipantJourneyList onContinue={() => {}} />
               </motion.div>

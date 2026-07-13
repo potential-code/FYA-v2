@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "../../context/LanguageContext";
-import { Button, Toggle } from "@aegov/design-system-react";
+import { Button, Toggle, Hyperlink } from "@aegov/design-system-react";
 
 const NAV_LINKS = [
   { href: "#about", key: "navAbout" },
@@ -157,12 +157,16 @@ function NavActions({
           className={light ? "text-white/90" : ""}
         />
       </motion.div>
-      <Link
-        href="/login"
-        className={light ? "text-sm font-medium text-white/90 hover:text-white" : "text-sm font-medium text-ink-soft hover:text-brand"}
+      <Hyperlink
+        asChild
+        className={
+          light
+            ? "text-sm font-medium !text-white/90 !no-underline hover:!text-white"
+            : "text-sm font-medium !text-ink-soft !no-underline hover:!text-brand"
+        }
       >
-        {tc("login")}
-      </Link>
+        <Link href="/login">{tc("login")}</Link>
+      </Hyperlink>
       <Link href="/sign-up">
         <motion.div
           className="inline-block"

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { Card, Button } from "@aegov/design-system-react";
 import { pillars } from "@shared/content/pillars";
 import { adminKpis, selectionFunnel, pillarAverageScores, recentRegistrations } from "@shared/content/mockDashboardData";
 import { useLanguage } from "../../context/LanguageContext";
@@ -37,7 +38,7 @@ export function AdminOverview() {
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         {/* Selection funnel */}
-        <div className="rounded-2xl border border-stroke bg-white p-6">
+        <Card variant="news" bordered className="rounded-2xl border-stroke bg-white p-6">
           <div className="flex items-center justify-between">
             <h3 className="text-base font-bold text-brand-navy">{t("funnelTitle")}</h3>
             <span className="rounded-full bg-surface-accent px-3 py-1 text-xs font-bold text-brand-dark">{t("funnelChip")}</span>
@@ -64,13 +65,15 @@ export function AdminOverview() {
               </div>
             ))}
           </div>
-        </div>
+        </Card>
 
         {/* Recent registrations */}
-        <div className="rounded-2xl border border-stroke bg-white p-6">
+        <Card variant="news" bordered className="rounded-2xl border-stroke bg-white p-6">
           <div className="flex items-center justify-between">
             <h3 className="text-base font-bold text-brand-navy">{t("recentTitle")}</h3>
-            <button className="text-xs font-semibold text-brand">{t("viewAll")}</button>
+            <Button variant="link" style="primary" size="xs" className="h-auto px-0 text-xs font-semibold">
+              {t("viewAll")}
+            </Button>
           </div>
           <ul className="mt-4 space-y-3">
             {recentRegistrations.map((r) => (
@@ -86,12 +89,12 @@ export function AdminOverview() {
               </li>
             ))}
           </ul>
-        </div>
+        </Card>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         {/* Pillar average bar chart */}
-        <div className="rounded-2xl border border-stroke bg-white p-6">
+        <Card variant="news" bordered className="rounded-2xl border-stroke bg-white p-6">
           <h3 className="text-base font-bold text-brand-navy">{t("avgTitle")}</h3>
           <p className="mt-1 text-sm text-muted">{t("avgSub")}</p>
           <div className="mt-6 flex items-end gap-4" style={{ height: 160 }}>
@@ -109,10 +112,10 @@ export function AdminOverview() {
               </div>
             ))}
           </div>
-        </div>
+        </Card>
 
         {/* Track distribution */}
-        <div className="rounded-2xl border border-stroke bg-white p-6">
+        <Card variant="news" bordered className="rounded-2xl border-stroke bg-white p-6">
           <h3 className="text-base font-bold text-brand-navy">{t("trackTitle")}</h3>
           <p className="mt-1 text-sm text-muted">{t("trackSub")}</p>
           <div className="mt-5 space-y-3 text-sm">
@@ -138,7 +141,7 @@ export function AdminOverview() {
               <span className="font-bold text-brand-navy">{t("completionV")}</span>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
     </div>
   );

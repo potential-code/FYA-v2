@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
+import { Card, Button } from "@aegov/design-system-react";
 import { pillars } from "@shared/content/pillars";
 import { mockChildProfile } from "@shared/content/mockDashboardData";
 import { useLanguage } from "../../context/LanguageContext";
@@ -16,12 +17,12 @@ export function PillarProgressList({ onViewJourney }: { onViewJourney: () => voi
   const { lang } = useLanguage();
 
   return (
-    <div className="rounded-[18px] border border-stroke-soft bg-white p-6">
+    <Card variant="news" bordered className="rounded-[18px] border-stroke-soft bg-white p-6">
       <div className="mb-5 flex items-center justify-between">
         <div className="text-[17px] font-bold text-brand-navy">{t("pillarsCardTitle")}</div>
-        <button onClick={onViewJourney} className="text-sm font-bold text-brand-dark hover:text-brand">
+        <Button onClick={onViewJourney} variant="link" style="primary" size="xs" className="h-auto px-0 text-sm font-bold">
           {t("viewJourney")}
-        </button>
+        </Button>
       </div>
       <div className="flex flex-col gap-4">
         {pillars.map((pillar, i) => {
@@ -51,6 +52,6 @@ export function PillarProgressList({ onViewJourney }: { onViewJourney: () => voi
           );
         })}
       </div>
-    </div>
+    </Card>
   );
 }

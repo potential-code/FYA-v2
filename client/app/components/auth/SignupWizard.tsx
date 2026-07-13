@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
-import { Steps, Alert, Button } from "@aegov/design-system-react";
+import { Steps, Alert, Button, Card } from "@aegov/design-system-react";
 import { useLanguage } from "../../context/LanguageContext";
 import { isValidEmail, isValidUaePhone, ageFromDob } from "../../lib/validators";
 import { PersonalDetailsStep } from "./steps/PersonalDetailsStep";
@@ -157,7 +157,11 @@ export function SignupWizard() {
         />
       </div>
 
-      <div className="mt-10 rounded-2xl border border-stroke bg-white p-8 shadow-sm md:p-10">
+      <Card
+        variant="news"
+        bordered
+        className="mt-10 rounded-2xl border-stroke bg-white p-8 shadow-sm md:p-10"
+      >
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
@@ -192,7 +196,7 @@ export function SignupWizard() {
             {step === 3 ? t("submit") : t("next")}
           </Button>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

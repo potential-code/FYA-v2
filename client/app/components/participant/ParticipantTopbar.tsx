@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
+import { Button } from "@aegov/design-system-react";
 import { useLanguage } from "../../context/LanguageContext";
 import { mockChildProfile } from "@shared/content/mockDashboardData";
 
@@ -16,12 +17,15 @@ export function ParticipantTopbar({ title }: { title: string }) {
           <span className="h-[9px] w-[9px] rounded-full bg-brand" />
           {t("pointsChip")}
         </div>
-        <button
+        <Button
           onClick={toggleLang}
-          className="rounded-full border border-stroke-strong px-3 py-1.5 text-xs font-bold tracking-wide text-brand-dark hover:bg-surface-accent"
+          variant="outline"
+          style="secondary"
+          size="xs"
+          className="rounded-full tracking-wide"
         >
           {lang === "ar" ? "EN" : "ع"}
-        </button>
+        </Button>
         <div className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-brand text-[15px] font-bold text-white">
           {mockChildProfile.initial[lang]}
         </div>

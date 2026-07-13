@@ -31,8 +31,64 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Lenis manages scrolling itself when active — native smooth-scroll would
+ * fight it (double easing on anchor jumps). Lenis stamps `.lenis` on <html>. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+html.lenis {
+  scroll-behavior: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   background: #fff;
   color: #2a3040;
+}
+
+/* ------------------------------------------------------------------ *
+ * Cinematic landing redesign utilities
+ * ------------------------------------------------------------------ */
+
+/* The Milligram webfont deliberately excludes digits (see @font-face
+ * unicode-range above), so numerals already fall back to the system stack.
+ * Make that intentional for the big animated stats: a clean, tabular,
+ * lining-figure treatment so large numbers read as a designed element. */
+.font-nums {
+  font-family: "SF Pro Display", "Segoe UI", system-ui, -apple-system,
+    "Helvetica Neue", Arial, sans-serif;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  letter-spacing: -0.02em;
+}
+
+/* Dark glass panel used across the cinematic sections. */
+.glass-dark {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* On-brand text/scroll selection on the dark canvas. */
+.landing-v2 ::selection {
+  background: rgba(110, 130, 205, 0.42);
+  color: #fff;
+}
+
+/* Reduced-motion: neutralize the decorative keyframes so nothing loops. */
+@media (prefers-reduced-motion: reduce) {
+  .landing-v2 [class*="animate-"] {
+    animation: none !important;
+  }
 }
