@@ -26,7 +26,7 @@ export const journeySteps: JourneyStep[] = [
     num: { ar: "٢", en: "2" },
     title: { ar: "التسجيل", en: "Registration" },
     desc: {
-      ar: "التسجيل والتعيينة",
+      ar: "التسجيل والتهيئة",
       en: "Sign-up & onboarding",
     },
     icon: "UserPlus",
