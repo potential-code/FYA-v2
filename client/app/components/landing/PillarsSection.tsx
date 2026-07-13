@@ -130,8 +130,26 @@ export function PillarsSection() {
   }, [lang]);
 
   return (
-    <section id="pillars" ref={sectionRef} className="py-24">
-      <div className="mx-auto max-w-6xl px-6 text-center md:px-12">
+    <section id="pillars" ref={sectionRef} className="relative overflow-clip py-24">
+      {/* Brand motifs at the two extreme top corners (fixed physical):
+          peach shown prominently on the left, blue faint on the right. */}
+      <Image
+        src="/images/branding-motifs/cutout-logo-peach.png"
+        alt=""
+        aria-hidden
+        width={1600}
+        height={790}
+        className="pointer-events-none absolute left-0 top-0 z-0 h-auto w-64 select-none opacity-90 md:w-80 lg:w-[24rem]"
+      />
+      <Image
+        src="/images/branding-motifs/wave-blue.png"
+        alt=""
+        aria-hidden
+        width={1600}
+        height={790}
+        className="pointer-events-none absolute -right-8 -top-6 z-0 h-auto w-64 select-none opacity-25 md:w-80"
+      />
+      <div className="relative z-10 mx-auto max-w-6xl px-6 text-center md:px-12">
         <div ref={headerRef}>
           <span className="text-sm font-semibold uppercase tracking-wide text-brand">{t("pillarsKicker")}</span>
           <h2 className="mt-3 text-3xl font-bold text-brand-navy md:text-4xl">
@@ -157,9 +175,10 @@ export function PillarsSection() {
           const flip = i % 2 === 1;
           const isSoftRow = i % 2 === 1;
           const bg = isSoftRow ? "bg-surface-soft" : "bg-white";
-          // Cards use a peach→periwinkle gradient; fade the image edge into the
-          // gradient's mid tone.
-          const rowBgHex = "212,203,232";
+          // Cards use the same peach→periwinkle progression as the analytics
+          // stats card, lightened for these large panels; fade the image edge
+          // into the gradient's mid tone.
+          const rowBgHex = "226,223,239";
           // The image alternates sides per row (flip). When it sits on the right,
           // mirror the corner motif so it always reads toward the card interior.
           const imageOnRight = !flip;
@@ -168,14 +187,29 @@ export function PillarsSection() {
           const fadeToRight = lang === "ar" ? flip : !flip;
 
           return (
-            <div key={pillar.id} className={`${bg} py-10`}>
-              <div className="mx-auto max-w-6xl px-6 md:px-12">
+            <div key={pillar.id} className={`relative ${bg} py-10`}>
+              {/* Prominent wave peeking in from the section's outer edge (clipped
+                  by the section's overflow-clip). Placed on the OPPOSITE side to
+                  the card image so it never sits near the photo: image is on the
+                  right for even rows (RTL), so the wave peeks from the left there,
+                  and vice-versa. Colour alternates blue / peach per row. */}
+              <Image
+                src={`/images/branding-motifs/wave-${i % 2 === 0 ? "blue" : "peach"}.png`}
+                alt=""
+                aria-hidden
+                width={1600}
+                height={790}
+                className={`pointer-events-none absolute top-1/2 z-0 h-auto w-[20rem] -translate-y-1/2 select-none opacity-60 md:w-[26rem] ${
+                  i % 2 === 0 ? "-left-24" : "-right-24"
+                }`}
+              />
+              <div className="relative z-10 mx-auto max-w-6xl px-6 md:px-12">
                 <div className="rounded-[24px] bg-gradient-to-br from-[#F4D7B9] via-[#C6BEDD] to-brand p-[2px] transition-shadow duration-300 hover:shadow-[0_18px_44px_rgba(99,128,211,0.16)]">
                 <Card
                   asChild
                   variant="default"
                   size="lg"
-                  className="overflow-hidden rounded-[22px] bg-gradient-to-br from-[#F4DCC0] via-[#D4CBE8] to-[#BAC3EE] p-0"
+                  className="overflow-hidden rounded-[22px] bg-gradient-to-r from-[#FBF1E6] via-[#E2DFEF] to-[#B9C2EA] p-0"
                 >
                   <div
                     data-pillar-row
@@ -197,12 +231,16 @@ export function PillarsSection() {
                         }}
                       />
                       <Image
-                        src="/images/branding-motifs/logo-motif-image.png"
+                        src={
+                          i % 2 === 0
+                            ? "/images/branding-motifs/logo-motif-image.png"
+                            : "/images/branding-motifs/logo-motif-peach.png"
+                        }
                         alt=""
                         aria-hidden
-                        width={228}
-                        height={200}
-                        className={`pointer-events-none absolute bottom-0 z-10 h-auto w-70 select-none drop-shadow-md ${
+                        width={560}
+                        height={490}
+                        className={`pointer-events-none absolute bottom-0 z-10 h-auto w-80 select-none drop-shadow-md md:w-96 ${
                           imageOnRight ? "right-0 -scale-x-100" : "left-0"
                         }`}
                       />

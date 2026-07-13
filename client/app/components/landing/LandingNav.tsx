@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "../../context/LanguageContext";
-import { Button, Toggle, Hyperlink } from "@aegov/design-system-react";
+import { Button, Toggle } from "@aegov/design-system-react";
 
 const NAV_LINKS = [
   { href: "#about", key: "navAbout" },
@@ -119,7 +119,7 @@ function NavLinks({
           variant="secondary"
           label={tc("langBtn")}
           aria-label="Toggle language"
-          className={light ? "text-white/90" : undefined}
+          className={light ? "text-white/90" : "text-ink-soft"}
         />
       </motion.div>
     </div>
@@ -154,19 +154,23 @@ function NavActions({
           variant="secondary"
           label={tc("langBtn")}
           aria-label="Toggle language"
-          className={light ? "text-white/90" : ""}
+          className={light ? "text-white/90" : "text-ink-soft"}
         />
       </motion.div>
-      <Hyperlink
-        asChild
+      {/* Plain Link (not the AEGov Hyperlink): with asChild + Next Link the
+          Hyperlink drops its className onto the rendered <a>, so the anchor
+          inherited the landing page's white text and went white-on-white once
+          the scrolled (white) nav slid in. Styling the anchor directly fixes it. */}
+      <Link
+        href="/login"
         className={
           light
-            ? "text-sm font-medium !text-white/90 !no-underline hover:!text-white"
-            : "text-sm font-medium !text-ink-soft !no-underline hover:!text-brand"
+            ? "text-sm font-medium text-white/90 no-underline transition hover:text-white"
+            : "text-sm font-medium text-ink-soft no-underline transition hover:text-brand"
         }
       >
-        <Link href="/login">{tc("login")}</Link>
-      </Hyperlink>
+        {tc("login")}
+      </Link>
       <Link href="/sign-up">
         <motion.div
           className="inline-block"

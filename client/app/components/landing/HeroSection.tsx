@@ -114,6 +114,16 @@ export function HeroSection() {
           as a neutral dark gradient rather than a blue glow. */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#1B2237] via-[#1B2237]/70 to-[#1B2237]/20" />
 
+      {/* Faint oversized brand motif anchored to the bottom-left of the hero */}
+      <Image
+        src="/images/branding-motifs/cutout-logo-blue.png"
+        alt=""
+        aria-hidden
+        width={1600}
+        height={768}
+        className="pointer-events-none absolute bottom-0 left-0 z-0 h-auto w-[68%] max-w-[760px] select-none opacity-[0.09]"
+      />
+
       <motion.div
         ref={contentRef}
         variants={container}

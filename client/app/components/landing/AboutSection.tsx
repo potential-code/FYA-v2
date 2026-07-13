@@ -51,7 +51,27 @@ export function AboutSection() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section id="about" className="mx-auto max-w-6xl px-6 py-24 md:px-12">
+    <section id="about" className="relative overflow-clip py-24">
+      {/* Section is full-bleed so these motifs sit at the true screen edges
+          (an inner max-w wrapper holds the content). Clipped by overflow so
+          they peek in — top-left blue, bottom-right peach. */}
+      <Image
+        src="/images/branding-motifs/cutout-logo-blue.png"
+        alt=""
+        aria-hidden
+        width={1600}
+        height={768}
+        className="pointer-events-none absolute -left-8 -top-16 z-0 h-auto w-80 select-none opacity-80 md:w-[30rem]"
+      />
+      <Image
+        src="/images/branding-motifs/cutout-logo-peach.png"
+        alt=""
+        aria-hidden
+        width={1600}
+        height={790}
+        className="pointer-events-none absolute -bottom-10 -right-8 z-0 h-auto w-72 select-none opacity-90 md:w-[26rem]"
+      />
+      <div className="relative z-10 mx-auto max-w-6xl px-6 md:px-12">
       <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
         {/* Text + feature cards */}
         <motion.div
@@ -72,7 +92,7 @@ export function AboutSection() {
               aria-hidden
               width={120}
               height={120}
-              className="pointer-events-none absolute -top-4 right-0 z-0 h-12 w-12 select-none"
+              className="pointer-events-none absolute -top-5 z-0 h-12 w-12 select-none"
             />
             <h2 className="relative z-10 text-2xl font-bold leading-tight text-brand-navy md:text-[32px]">
               {t("aboutTitle1")}{" "}
@@ -132,6 +152,16 @@ export function AboutSection() {
             height={760}
             className="h-full w-full object-cover"
           />
+          {/* Peach wave peeping in from the bottom-left of the image, smaller
+              than full width and clipped by the parent's overflow-hidden. */}
+          <Image
+            src="/images/branding-motifs/wave-peach.png"
+            alt=""
+            aria-hidden
+            width={1600}
+            height={790}
+            className="pointer-events-none absolute -left-8 bottom-0 z-10 h-auto w-[62%] max-w-none select-none"
+          />
         </motion.div>
       </div>
 
@@ -176,6 +206,7 @@ export function AboutSection() {
             </Button>
           </motion.div>
         </Link>
+      </div>
       </div>
     </section>
   );
