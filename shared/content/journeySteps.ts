@@ -1,13 +1,13 @@
 /** The 7-stage participant journey shown as a horizontal timeline in the landing
  *  Journey section. Pure bilingual data (no React), mirroring shared/content/phases.ts.
- *  `icon` is a @phosphor-icons/react component name, mapped to a component in the
- *  ParticipantJourneyTimeline component. */
+ *  `image` is the public path to the step's illustration, cropped from the original
+ *  journey funnel infographic and displayed in each timeline card. */
 export interface JourneyStep {
   id: string;
   num: { ar: string; en: string };
   title: { ar: string; en: string };
   desc: { ar: string; en: string };
-  icon: string;
+  image: string;
 }
 
 export const journeySteps: JourneyStep[] = [
@@ -19,7 +19,7 @@ export const journeySteps: JourneyStep[] = [
       ar: "التواصل والتفاعل المجتمعي",
       en: "Community outreach & engagement",
     },
-    icon: "Megaphone",
+    image: "/images/journey/step-1.png",
   },
   {
     id: "registration",
@@ -29,7 +29,7 @@ export const journeySteps: JourneyStep[] = [
       ar: "التسجيل والتهيئة",
       en: "Sign-up & onboarding",
     },
-    icon: "UserPlus",
+    image: "/images/journey/step-2.png",
   },
   {
     id: "self-paced-courses",
@@ -39,7 +39,7 @@ export const journeySteps: JourneyStep[] = [
       ar: "التعلم بالوتيرة الخاصة بك",
       en: "Learn at your own pace",
     },
-    icon: "Laptop",
+    image: "/images/journey/step-3.png",
   },
   {
     id: "ai-coaches",
@@ -49,7 +49,7 @@ export const journeySteps: JourneyStep[] = [
       ar: "توجيه وإرشاد شخصي",
       en: "Personal guidance & mentoring",
     },
-    icon: "Robot",
+    image: "/images/journey/step-4.png",
   },
   {
     id: "in-person-workshops",
@@ -59,7 +59,7 @@ export const journeySteps: JourneyStep[] = [
       ar: "٨ أيام من التعلم المكثف والعملي",
       en: "8 days of intensive hands-on learning",
     },
-    icon: "ChalkboardTeacher",
+    image: "/images/journey/step-5.png",
   },
   {
     id: "field-trips",
@@ -69,7 +69,7 @@ export const journeySteps: JourneyStep[] = [
       ar: "التعلم التجريبي في العالم الحقيقي",
       en: "Real-world experiential learning",
     },
-    icon: "MapTrifold",
+    image: "/images/journey/step-6.png",
   },
   {
     id: "rewards",
@@ -79,6 +79,6 @@ export const journeySteps: JourneyStep[] = [
       ar: "تقدير الإنجازات والاحتفال بالأثر",
       en: "Recognition & celebrating impact",
     },
-    icon: "Trophy",
+    image: "/images/journey/step-7.png",
   },
 ];

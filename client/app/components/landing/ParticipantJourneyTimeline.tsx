@@ -1,34 +1,13 @@
 "use client";
 
-import { useEffect, useRef, type ComponentType } from "react";
+import { useEffect, useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
-import {
-  Megaphone,
-  UserPlus,
-  Laptop,
-  Robot,
-  ChalkboardTeacher,
-  MapTrifold,
-  Trophy,
-  type IconProps,
-} from "@phosphor-icons/react";
 import { Card } from "@aegov/design-system-react";
 import { journeySteps } from "@shared/content/journeySteps";
 import { useLanguage } from "../../context/LanguageContext";
 import { ensureGsapRegistered } from "../../lib/gsapConfig";
 import { useGsapMatchMedia } from "../../hooks/useGsapMatchMedia";
-
-/** Phosphor icon-name -> component. Content stores names as strings so it stays
- *  React-free; this map keeps the icon set explicit and tree-shakeable. */
-const iconMap: Record<string, ComponentType<IconProps>> = {
-  Megaphone,
-  UserPlus,
-  Laptop,
-  Robot,
-  ChalkboardTeacher,
-  MapTrifold,
-  Trophy,
-};
 
 export function ParticipantJourneyTimeline() {
   const { lang } = useLanguage();
@@ -58,12 +37,16 @@ export function ParticipantJourneyTimeline() {
         const bodies = steps
           .map((s) => s.querySelector("[data-journey-body]"))
           .filter(Boolean) as Element[];
+        const images = steps
+          .map((s) => s.querySelector("[data-journey-image]"))
+          .filter(Boolean) as Element[];
 
         // Reduced motion: show the final state, no animation.
         if (reduce) {
           gsap.set(lines, { scaleX: 1, scaleY: 1, opacity: 1 });
           gsap.set(badges, { scale: 1, opacity: 1 });
           gsap.set(bodies, { opacity: 1, y: 0 });
+          gsap.set(images, { scale: 1 });
           return;
         }
 
@@ -82,6 +65,7 @@ export function ParticipantJourneyTimeline() {
         });
         gsap.set(badges, { scale: 0, opacity: 0 });
         gsap.set(bodies, { opacity: 0, y: 16 });
+        gsap.set(images, { scale: 1.08 });
 
         const tl = gsap.timeline({
           scrollTrigger: { trigger: root, start: "top 80%", toggleActions: "play none none none" },
@@ -99,6 +83,12 @@ export function ParticipantJourneyTimeline() {
         tl.to(
           bodies,
           { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.12 },
+          "-=0.9",
+        );
+        // 4) Illustrations settle from a subtle zoom for a bit of life.
+        tl.to(
+          images,
+          { scale: 1, duration: 0.7, ease: "power2.out", stagger: 0.12 },
           "-=0.9",
         );
       },
@@ -126,42 +116,48 @@ export function ParticipantJourneyTimeline() {
         className="absolute bottom-6 start-6 top-6 w-[3px] rounded-full bg-brand/40 md:hidden"
       />
 
-      <ol className="grid grid-cols-1 gap-8 md:grid-cols-7 md:gap-x-4">
-        {journeySteps.map((step) => {
-          const Icon = iconMap[step.icon] ?? Megaphone;
-          return (
-            <li
-              key={step.id}
-              data-journey-step
-              className="flex flex-row items-start gap-4 md:flex-col md:items-center md:gap-0"
+      <ol className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-7 md:gap-x-4">
+        {journeySteps.map((step) => (
+          <li
+            key={step.id}
+            data-journey-step
+            className="flex h-full flex-row items-start gap-4 md:flex-col md:items-center md:gap-0"
+          >
+            {/* Numbered badge (styled wrapper — token colors, always 1–7, never a check). */}
+            <div
+              data-journey-badge
+              className="relative z-10 flex h-12 w-12 flex-none items-center justify-center rounded-full bg-brand text-base font-bold text-white shadow-[0_6px_16px_rgba(99,128,211,0.35)] ring-4 ring-surface-soft"
             >
-              {/* Numbered badge (styled wrapper — token colors, always 1–7, never a check). */}
-              <div
-                data-journey-badge
-                className="relative z-10 flex h-12 w-12 flex-none items-center justify-center rounded-full bg-brand text-base font-bold text-white shadow-[0_6px_16px_rgba(99,128,211,0.35)] ring-4 ring-surface-soft"
-              >
-                {step.num[lang]}
-              </div>
+              {step.num[lang]}
+            </div>
 
-              <Card
-                asChild
-                variant="news"
-                className="w-full rounded-2xl border border-stroke bg-white p-0 shadow-sm md:mt-6"
+            <Card
+              asChild
+              variant="news"
+              className="flex w-full flex-col rounded-2xl border border-stroke bg-white p-0 shadow-sm md:mt-6 md:h-full md:flex-1"
+            >
+              <div
+                data-journey-body
+                className="group flex h-full flex-col gap-3 p-4 transition-transform duration-300 hover:-translate-y-1 md:items-center md:text-center"
               >
-                <div
-                  data-journey-body
-                  className="group flex flex-col gap-2 p-5 transition-transform duration-300 hover:-translate-y-1 md:items-center md:text-center"
-                >
-                  <span className="text-brand transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
-                    <Icon size={28} weight="duotone" aria-hidden />
-                  </span>
-                  <h3 className="text-base font-bold text-brand-navy">{step.title[lang]}</h3>
-                  <p className="text-sm text-ink-soft">{step.desc[lang]}</p>
+                {/* Illustration tile — cropped figure on a soft, uniform tile so all
+                    7 differently-sized crops read as one consistent row. */}
+                <div className="relative h-28 w-full flex-none overflow-hidden rounded-xl bg-surface-soft ring-1 ring-stroke/50 md:h-32">
+                  <Image
+                    src={step.image}
+                    alt={step.title[lang]}
+                    fill
+                    sizes="(max-width: 768px) 40vw, 160px"
+                    data-journey-image
+                    className="object-contain p-2"
+                  />
                 </div>
-              </Card>
-            </li>
-          );
-        })}
+                <h3 className="text-base font-bold text-brand-navy">{step.title[lang]}</h3>
+                <p className="text-sm text-ink-soft">{step.desc[lang]}</p>
+              </div>
+            </Card>
+          </li>
+        ))}
       </ol>
     </div>
   );
