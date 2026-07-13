@@ -9,6 +9,7 @@ import { Card } from "@aegov/design-system-react";
 import { useLanguage } from "../../context/LanguageContext";
 import { ensureGsapRegistered } from "../../lib/gsapConfig";
 import { useGsapMatchMedia } from "../../hooks/useGsapMatchMedia";
+import { ParticipantJourneyTimeline } from "./ParticipantJourneyTimeline";
 
 export function JourneySection() {
   const { t } = useTranslation("translation", { keyPrefix: "landing" });
@@ -21,7 +22,6 @@ export function JourneySection() {
   const jtRest = jtSpace === -1 ? "" : journeyTitle.slice(jtSpace);
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-  const mapWrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     ensureGsapRegistered();
@@ -57,7 +57,6 @@ export function JourneySection() {
               { opacity: 1, y: 0, scale: 1 },
             );
           });
-          if (mapWrapRef.current) gsap.set(mapWrapRef.current, { clipPath: "inset(0 0% 0 0%)" });
           return;
         }
 
@@ -137,26 +136,6 @@ export function JourneySection() {
             },
           );
         }
-
-        if (mapWrapRef.current) {
-          // Wipe-open reveal: mirrored for RTL so the wipe always travels in
-          // the same visual direction the reading order does.
-          const startClip = isArabic ? "inset(0 0% 0 100%)" : "inset(0 100% 0 0%)";
-          gsap.fromTo(
-            mapWrapRef.current,
-            { clipPath: startClip },
-            {
-              clipPath: "inset(0 0% 0 0%)",
-              ease: "none",
-              scrollTrigger: {
-                trigger: mapWrapRef.current,
-                start: "top 90%",
-                end: "top 40%",
-                scrub: 0.5,
-              },
-            },
-          );
-        }
       },
     );
 
@@ -233,17 +212,7 @@ export function JourneySection() {
           ))}
         </div>
 
-        <div className="mt-14 overflow-hidden rounded-3xl border border-stroke">
-          <div ref={mapWrapRef}>
-            <Image
-              src="/images/journey-map.png"
-              alt={t("journeyMapAlt")}
-              width={1200}
-              height={480}
-              className="h-auto w-full object-cover"
-            />
-          </div>
-        </div>
+        <ParticipantJourneyTimeline />
       </div>
     </section>
   );
