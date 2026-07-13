@@ -1,0 +1,14 @@
+**/node_modules
+**/.next
+**/.git
+**/.env
+**/.env.*
+!**/.env.example
+**/dist
+**/build
+**/*.log
+**/.DS_Store
+**/coverage
+uploads
+.thumbnail
+*.dc.html
