@@ -49,7 +49,8 @@ export function LandingFooter() {
         <motion.div variants={item}>
           {/* Full actual logo (symbol + Arabic + English wordmark). */}
           <Image src="/images/logo-white.png" alt="Youth Leaders Path" width={200} height={154} className="h-auto w-[140px]" />
-          <p className="mt-4 max-w-sm text-sm text-white/70">{tl("footerAbout")}</p>
+          <h3 className="mt-4 text-base font-semibold text-white">{tl("footerTitle")}</h3>
+          <p className="mt-2 max-w-sm text-sm text-white/70">{tl("footerAbout")}</p>
         </motion.div>
         <motion.div variants={item}>
           <h4 className="text-sm font-semibold text-white/90">{tl("footerCol1")}</h4>
@@ -66,17 +67,6 @@ export function LandingFooter() {
             <li><Hyperlink asChild className="!text-white/60 !no-underline transition-colors duration-200 hover:!text-white"><Link href="/sign-up">{tc("registerNow")}</Link></Hyperlink></li>
           </ul>
         </motion.div>
-      </motion.div>
-
-      <motion.div
-        className="relative mx-auto mt-12 flex max-w-6xl flex-col items-center gap-2 border-t border-white/10 px-6 pt-6 text-xs text-white/50 md:flex-row md:justify-between md:px-12"
-        initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={reduceMotion ? { duration: 0 } : { duration: 0.5 }}
-      >
-        <span>{tc("footerCopy")}</span>
-        <span>{tc("footerTag")}</span>
       </motion.div>
     </footer>
   );

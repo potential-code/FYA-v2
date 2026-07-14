@@ -3,7 +3,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "Youth Leaders Path | مسار القادة الشباب",
+  title: "مسار القادة الشباب | Youth Leaders Path",
   description:
     "A national program by the UAE Federal Youth Authority empowering Emirati youth 13-18 through a digital and experiential leadership journey.",
 };

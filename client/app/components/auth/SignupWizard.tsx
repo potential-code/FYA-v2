@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
-import { Steps, Alert, Button, Card } from "@aegov/design-system-react";
+import { Steps, Button, Card } from "@aegov/design-system-react";
 import { useLanguage } from "../../context/LanguageContext";
 import { isValidEmail, isValidUaePhone, ageFromDob } from "../../lib/validators";
 import { PersonalDetailsStep } from "./steps/PersonalDetailsStep";
@@ -31,6 +31,7 @@ export interface SignupFormValues {
   emirate: string;
   school: string;
   grade: string;
+  parentName: string;
   parentEmail: string;
   parentPhone: string;
 }
@@ -44,11 +45,13 @@ const EMPTY_VALUES: SignupFormValues = {
   emirate: "",
   school: "",
   grade: "",
+  parentName: "",
   parentEmail: "",
   parentPhone: "",
 };
 
-type FieldErrors = Partial<Record<keyof SignupFormValues, boolean>>;
+// Per-field validation: each entry holds the message to show under that field.
+type FieldErrors = Partial<Record<keyof SignupFormValues, string>>;
 
 export function SignupWizard() {
   ensureSignupBundles();
@@ -58,70 +61,45 @@ export function SignupWizard() {
   const [done, setDone] = useState(false);
   const [values, setValues] = useState<SignupFormValues>(EMPTY_VALUES);
   const [errors, setErrors] = useState<FieldErrors>({});
-  const [formError, setFormError] = useState("");
-
-  useEffect(() => {
-    setFormError("");
-  }, [step]);
 
   const onChange = (field: keyof SignupFormValues, value: string) => {
     setValues((v) => ({ ...v, [field]: value }));
-    setErrors((e) => ({ ...e, [field]: false }));
-    setFormError("");
+    setErrors((e) => ({ ...e, [field]: undefined }));
   };
 
-  function validate(currentStep: number): { errs: FieldErrors; msg: string } {
+  // Per-field validation — each field carries its own document-specified message.
+  function validate(currentStep: number): FieldErrors {
     const errs: FieldErrors = {};
-    let msg = "";
 
     if (currentStep === 1) {
-      if (!values.firstName.trim()) errs.firstName = true;
-      if (!values.lastName.trim()) errs.lastName = true;
-      if (!values.email.trim()) errs.email = true;
-      else if (!isValidEmail(values.email)) {
-        errs.email = true;
-        msg = t("errEmail");
-      }
-      if (!values.phone.trim()) errs.phone = true;
-      else if (!isValidUaePhone(values.phone)) {
-        errs.phone = true;
-        msg = msg || t("errPhone");
-      }
-      if (!values.dob) errs.dob = true;
+      if (!values.firstName.trim()) errs.firstName = t("errFirstName");
+      if (!values.lastName.trim()) errs.lastName = t("errLastName");
+      if (!values.email.trim() || !isValidEmail(values.email)) errs.email = t("errEmail");
+      if (!values.phone.trim() || !isValidUaePhone(values.phone)) errs.phone = t("errPhone");
+      if (!values.dob) errs.dob = t("errDob");
       else {
         const age = ageFromDob(values.dob);
-        if (age === null || age < 13 || age > 18) {
-          errs.dob = true;
-          msg = msg || t("errAge");
-        }
+        if (age === null || age < 13 || age > 18) errs.dob = t("errAge");
       }
     }
     if (currentStep === 2) {
-      if (!values.emirate) errs.emirate = true;
-      if (!values.school.trim()) errs.school = true;
-      if (!values.grade) errs.grade = true;
+      if (!values.emirate) errs.emirate = t("errEmirate");
+      if (!values.school.trim()) errs.school = t("errSchool");
+      if (!values.grade) errs.grade = t("errRequired");
     }
     if (currentStep === 3) {
-      if (!values.parentEmail.trim()) errs.parentEmail = true;
-      else if (!isValidEmail(values.parentEmail)) {
-        errs.parentEmail = true;
-        msg = t("errEmail");
-      }
-      if (!values.parentPhone.trim()) errs.parentPhone = true;
-      else if (!isValidUaePhone(values.parentPhone)) {
-        errs.parentPhone = true;
-        msg = msg || t("errPhone");
-      }
+      // The document provides a single guardian-data message for all guardian fields.
+      if (!values.parentName.trim()) errs.parentName = t("errGuardian");
+      if (!values.parentEmail.trim() || !isValidEmail(values.parentEmail)) errs.parentEmail = t("errGuardian");
+      if (!values.parentPhone.trim() || !isValidUaePhone(values.parentPhone)) errs.parentPhone = t("errGuardian");
     }
-    if (Object.keys(errs).length && !msg) msg = t("errRequired");
-    return { errs, msg };
+    return errs;
   }
 
   const handleNext = () => {
-    const { errs, msg } = validate(step);
-    if (msg) {
+    const errs = validate(step);
+    if (Object.keys(errs).length) {
       setErrors(errs);
-      setFormError(msg);
       return;
     }
     if (step < 3) {
@@ -135,7 +113,6 @@ export function SignupWizard() {
   const handleBack = () => {
     setStep((s) => Math.max(1, s - 1));
     setErrors({});
-    setFormError("");
   };
 
   if (done) {
@@ -154,6 +131,7 @@ export function SignupWizard() {
           steps={stepLabels.map((label) => ({ label }))}
           currentStep={step - 1}
           showLabels
+          className="[&_span]:whitespace-nowrap"
         />
       </div>
 
@@ -175,14 +153,6 @@ export function SignupWizard() {
             {step === 3 && <GuardianDetailsStep values={values} errors={errors} onChange={onChange} t={t} />}
           </motion.div>
         </AnimatePresence>
-
-        {formError && (
-          <div className="mt-5">
-            <Alert variant="error" style="soft" size="sm">
-              {formError}
-            </Alert>
-          </div>
-        )}
 
         <div className="mt-8 flex items-center justify-between">
           {step > 1 ? (

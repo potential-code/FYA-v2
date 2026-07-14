@@ -24,16 +24,18 @@ export function SchoolDetailsStep({ values, errors, onChange, t, lang }: StepPro
         options={emirateOptions}
         value={values.emirate}
         onChange={(value: string) => onChange("emirate", value)}
-        error={errors.emirate ? " " : undefined}
+        error={errors.emirate || undefined}
       />
 
       <div className="mt-4">
         <Input
           label={t("school")}
+          placeholder={t("schoolPh")}
           value={values.school}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange("school", e.target.value)}
           variant={errors.school ? "error" : "primary"}
         />
+        {errors.school && <p className="mt-1 text-sm text-red-600">{errors.school}</p>}
       </div>
 
       <div className="mt-4">
@@ -43,7 +45,7 @@ export function SchoolDetailsStep({ values, errors, onChange, t, lang }: StepPro
           options={gradeOptions}
           value={values.grade}
           onChange={(value: string) => onChange("grade", value)}
-          error={errors.grade ? " " : undefined}
+          error={errors.grade || undefined}
         />
       </div>
     </div>

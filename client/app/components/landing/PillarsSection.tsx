@@ -139,7 +139,7 @@ export function PillarsSection() {
         aria-hidden
         width={1600}
         height={790}
-        className="pointer-events-none absolute left-0 top-0 z-0 h-auto w-64 select-none opacity-90 md:w-80 lg:w-[24rem]"
+        className="pointer-events-none absolute left-0 top-0 z-0 h-auto w-80 select-none opacity-40 md:w-[28rem] lg:w-[34rem]"
       />
       <Image
         src="/images/branding-motifs/wave-blue.png"
@@ -147,7 +147,7 @@ export function PillarsSection() {
         aria-hidden
         width={1600}
         height={790}
-        className="pointer-events-none absolute -right-8 -top-6 z-0 h-auto w-64 select-none opacity-25 md:w-80"
+        className="pointer-events-none absolute -right-24 -top-20 z-0 h-auto w-96 select-none opacity-25 md:w-[30rem] lg:-right-32 lg:-top-24"
       />
       <div className="relative z-10 mx-auto max-w-6xl px-6 text-center md:px-12">
         <div ref={headerRef}>

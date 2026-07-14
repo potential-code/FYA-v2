@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import Image from "next/image";
 import { Input, Button, Alert, Toggle } from "@aegov/design-system-react";
 import { ArrowLeft } from "@phosphor-icons/react";
 import { useLanguage } from "../../context/LanguageContext";
@@ -36,7 +37,18 @@ export function LoginForm() {
   };
 
   return (
-    <div className="relative flex flex-1 flex-col px-6 py-7 md:h-full md:overflow-y-auto md:px-14">
+    <div className="relative overflow-hidden flex flex-1 flex-col px-6 py-7 md:h-full md:overflow-y-auto md:px-14">
+      {/* Big, faint brand wave bleeding off the top edge, clipped by the
+          container so it reads as a peeking span rather than a full graphic. */}
+      <Image
+        src="/images/branding-motifs/wave-blue.png"
+        alt=""
+        aria-hidden
+        width={1600}
+        height={790}
+        className="pointer-events-none absolute -top-24 left-1/2 -z-10 h-auto w-[48rem] max-w-none -translate-x-1/2 select-none opacity-10 md:w-[64rem]"
+      />
+
       <div className="flex items-center justify-between gap-2">
         <Link
           href="/"
@@ -80,7 +92,7 @@ export function LoginForm() {
             </div>
             <Input
               type="password"
-              placeholder="••••••••"
+              placeholder={t("passPh")}
               value={password}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setPassword(e.target.value);

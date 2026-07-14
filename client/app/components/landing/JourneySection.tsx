@@ -206,12 +206,7 @@ export function JourneySection() {
                 </div>
               </div>
               <div className="p-6">
-                <div data-phase-meta className="flex items-center gap-2 text-xs font-semibold text-brand">
-                  <span>{phase.kicker[lang]}</span>
-                  <span className="text-stroke-strong">·</span>
-                  <span className="text-muted">{phase.tag[lang]}</span>
-                </div>
-                <h3 data-phase-title className="mt-2 text-lg font-bold text-brand-navy">
+                <h3 data-phase-title className="text-lg font-bold text-brand-navy">
                   {phase.title[lang]}
                 </h3>
                 <p data-phase-desc className="mt-2 text-sm text-ink-soft">
@@ -226,6 +221,9 @@ export function JourneySection() {
         </div>
         </div>
 
+        <h2 className="mt-20 text-center text-3xl font-bold text-brand-navy md:text-4xl">
+          {t("journeyStepsTitle")}
+        </h2>
         <ParticipantJourneyTimeline />
       </div>
     </section>

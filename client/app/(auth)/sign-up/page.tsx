@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import i18n from "../../i18n/i18n";
 import signupAr from "../../i18n/locales/signup.ar.json";
 import signupEn from "../../i18n/locales/signup.en.json";
+import Image from "next/image";
 import { AuthBrandPanel } from "../../components/auth/AuthBrandPanel";
 import { SignupWizard } from "../../components/auth/SignupWizard";
 import Link from "next/link";
@@ -22,7 +23,18 @@ export default function SignUpPage() {
     <main className="grid min-h-screen md:h-screen md:grid-cols-[1fr_1.1fr] md:overflow-hidden">
       <AuthBrandPanel image="/images/auth-side.png" tagline={t("brandLine")} subtext={t("brandSub")} />
 
-      <div className="flex flex-col md:h-full md:overflow-y-auto">
+      <div className="relative overflow-hidden flex flex-col md:h-full md:overflow-y-auto">
+        {/* Big, faint brand wave bleeding off the top edge, clipped by the
+            container so it reads as a peeking span rather than a full graphic. */}
+        <Image
+          src="/images/branding-motifs/wave-blue.png"
+          alt=""
+          aria-hidden
+          width={1600}
+          height={790}
+          className="pointer-events-none absolute -top-24 left-1/2 -z-10 h-auto w-[48rem] max-w-none -translate-x-1/2 select-none opacity-10 md:w-[64rem]"
+        />
+
         <div className="flex items-center justify-between gap-2 px-6 pt-6 text-sm text-ink-soft md:px-10">
           <Link
             href="/"

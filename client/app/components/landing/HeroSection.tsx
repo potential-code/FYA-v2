@@ -14,8 +14,8 @@ import { ensureGsapRegistered } from "../../lib/gsapConfig";
 import { useGsapMatchMedia } from "../../hooks/useGsapMatchMedia";
 import { LandingNav } from "./LandingNav";
 
-const STAT_TARGETS = [1000, 6, 8, 40];
-const STAT_LABEL_KEYS = ["stat1l", "stat2l", "stat3l", "stat4l"];
+const STAT_TARGETS = [6, 8, 40];
+const STAT_LABEL_KEYS = ["stat2l", "stat3l", "stat4l"];
 
 const container: Variants = {
   hidden: {},
@@ -131,14 +131,7 @@ export function HeroSection() {
         animate="show"
         className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20 pt-40 md:px-12"
       >
-        <motion.span
-          variants={item}
-          className="inline-block rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-semibold tracking-wide backdrop-blur"
-        >
-          {t("heroBadge")}
-        </motion.span>
-
-        <motion.h1 variants={item} className="mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
+        <motion.h1 variants={item} className="max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
           {t("heroTitle1")} {t("heroTitle2")}{" "}
           <span className="bg-gradient-to-r from-brand-light to-white bg-clip-text text-transparent">
             {t("heroTitleAccent")}

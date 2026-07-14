@@ -3,10 +3,10 @@
 import { useEffect, useRef, type ComponentType } from "react";
 import gsap from "gsap";
 import {
-  Megaphone,
   UserPlus,
   Laptop,
   Robot,
+  Target,
   ChalkboardTeacher,
   MapTrifold,
   Trophy,
@@ -21,10 +21,10 @@ import { useGsapMatchMedia } from "../../hooks/useGsapMatchMedia";
 /** Phosphor icon-name -> component. Content stores names as strings so it stays
  *  React-free; this map keeps the icon set explicit and tree-shakeable. */
 const iconMap: Record<string, ComponentType<IconProps>> = {
-  Megaphone,
   UserPlus,
   Laptop,
   Robot,
+  Target,
   ChalkboardTeacher,
   MapTrifold,
   Trophy,
@@ -128,7 +128,7 @@ export function ParticipantJourneyTimeline() {
 
       <ol className="grid grid-cols-1 gap-8 md:grid-cols-7 md:gap-x-4">
         {journeySteps.map((step) => {
-          const Icon = iconMap[step.icon] ?? Megaphone;
+          const Icon = iconMap[step.icon] ?? Target;
           return (
             <li
               key={step.id}

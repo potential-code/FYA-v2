@@ -3,12 +3,10 @@
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
-import Link from "next/link";
 import { Check } from "@phosphor-icons/react";
-import { Button, Card } from "@aegov/design-system-react";
+import { Card } from "@aegov/design-system-react";
 
 interface AboutCard {
-  tag: string;
   title: string;
   points: string[];
 }
@@ -69,7 +67,7 @@ export function AboutSection() {
         aria-hidden
         width={1600}
         height={790}
-        className="pointer-events-none absolute -bottom-10 -right-8 z-0 h-auto w-72 select-none opacity-90 md:w-[26rem]"
+        className="pointer-events-none absolute -bottom-10 -right-8 z-0 h-auto w-[28rem] select-none opacity-25 md:w-[36rem] lg:w-[42rem]"
       />
       <div className="relative z-10 mx-auto max-w-6xl px-6 md:px-12">
       <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
@@ -110,16 +108,13 @@ export function AboutSection() {
             {cards.map((card, i) => {
               const tint = TINTS[TINT_ORDER[i]];
               return (
-                <motion.div key={card.tag} variants={item}>
+                <motion.div key={card.title} variants={item}>
                   <Card
                     variant="news"
                     bordered
                     className={`h-full rounded-2xl p-4 transition-shadow duration-300 hover:shadow-[0_14px_36px_rgba(99,128,211,0.12)] ${tint.card}`}
                   >
-                    <span className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold ${tint.tag}`}>
-                      {card.tag}
-                    </span>
-                    <h3 className="mt-2.5 text-[14px] font-bold text-brand-navy">{card.title}</h3>
+                    <h3 className="text-[14px] font-bold text-brand-navy">{card.title}</h3>
                     <ul className="mt-2 space-y-1.5">
                       {card.points.map((point) => (
                         <li key={point} className="flex items-start gap-2 text-[12px] leading-snug text-ink-soft">
@@ -177,7 +172,7 @@ export function AboutSection() {
           variant="news"
           className="overflow-hidden rounded-[28px] bg-gradient-to-r from-[#F5E1CB] via-[#C7C3DF] to-[#8E99D5] p-0 shadow-[0_20px_50px_rgba(110,130,205,0.22)]"
         >
-          <div className="grid grid-cols-2 gap-y-7 py-8 md:grid-cols-4 md:divide-x md:divide-white/30 md:rtl:divide-x-reverse">
+          <div className="grid grid-cols-1 gap-y-7 py-8 md:grid-cols-3 md:divide-x md:divide-white/30 md:rtl:divide-x-reverse">
             {stats.map((stat) => (
               <div key={stat.label} className="px-6 text-center text-white">
                 <div className="text-4xl font-bold leading-tight [text-shadow:0_4px_14px_rgba(7,14,67,0.65),0_2px_4px_rgba(7,14,67,0.55)] md:text-[52px]">
@@ -192,21 +187,6 @@ export function AboutSection() {
         </Card>
       </motion.div>
 
-      {/* CTA */}
-      <div className="mt-9 flex justify-center">
-        <Link href="/sign-up">
-          <motion.div
-            className="inline-block"
-            whileHover={reduceMotion ? undefined : { scale: 1.03 }}
-            whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-            transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 25 }}
-          >
-            <Button variant="solid" style="primary" size="lg">
-              {t("aboutCta")}
-            </Button>
-          </motion.div>
-        </Link>
-      </div>
       </div>
     </section>
   );

@@ -9,6 +9,7 @@ import { useLanguage } from "../../context/LanguageContext";
 import { Button, Toggle } from "@aegov/design-system-react";
 
 const NAV_LINKS = [
+  { href: "#", key: "navHome" },
   { href: "#about", key: "navAbout" },
   { href: "#journey", key: "navJourney" },
   { href: "#pillars", key: "navPillars" },
