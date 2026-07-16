@@ -37,7 +37,7 @@ export function LoginForm() {
   };
 
   return (
-    <div className="relative overflow-hidden flex flex-1 flex-col px-6 py-7 md:h-full md:overflow-y-auto md:px-14">
+    <div className="relative overflow-hidden flex flex-1 flex-col px-5 py-6 sm:px-6 sm:py-7 lg:h-full lg:overflow-y-auto lg:px-14">
       {/* Big, faint brand wave bleeding off the top edge, clipped by the
           container so it reads as a peeking span rather than a full graphic. */}
       <Image
@@ -49,7 +49,7 @@ export function LoginForm() {
         className="pointer-events-none absolute -top-24 left-1/2 -z-10 h-auto w-[48rem] max-w-none -translate-x-1/2 select-none opacity-10 md:w-[64rem]"
       />
 
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 gap-y-2">
         <Link
           href="/"
           className="inline-flex items-center gap-1.5 text-sm font-medium text-ink-soft transition hover:text-brand"
@@ -66,9 +66,9 @@ export function LoginForm() {
         />
       </div>
 
-      <div className="mx-auto flex w-full max-w-[420px] flex-1 flex-col justify-center py-10">
-        <h1 className="mb-2.5 text-3xl font-bold text-brand-navy md:text-[34px]">{t("title")}</h1>
-        <p className="mb-8 text-[15.5px] leading-relaxed text-ink-soft">{t("sub")}</p>
+      <div className="mx-auto flex w-full max-w-[420px] flex-1 flex-col justify-center py-8 sm:py-10">
+        <h1 className="mb-2.5 text-[26px] font-bold text-brand-navy sm:text-3xl lg:text-[34px]">{t("title")}</h1>
+        <p className="mb-8 text-sm leading-relaxed text-ink-soft sm:text-[15.5px]">{t("sub")}</p>
 
         <div className="flex flex-col gap-4">
           <Input

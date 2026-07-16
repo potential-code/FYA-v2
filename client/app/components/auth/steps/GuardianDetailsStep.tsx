@@ -1,7 +1,17 @@
 "use client";
 
 import { Input, Alert } from "@aegov/design-system-react";
+import { PhoneInput, defaultCountries, parseCountry } from "react-international-phone";
 import type { StepProps } from "./types";
+
+const UAE_ONLY = defaultCountries.filter((country) => parseCountry(country).iso2 === "ae");
+
+const PHONE_INPUT_VARS = {
+  "--react-international-phone-height": "3rem",
+  "--react-international-phone-border-radius": "0.5rem",
+  "--react-international-phone-font-size": "1rem",
+  "--react-international-phone-background-color": "#FFFFFF",
+} as React.CSSProperties;
 
 export function GuardianDetailsStep({ values, errors, onChange, t }: Omit<StepProps, "lang">) {
   return (
@@ -31,14 +41,28 @@ export function GuardianDetailsStep({ values, errors, onChange, t }: Omit<StepPr
       </div>
 
       <div className="mt-4">
-        <Input
-          type="tel"
-          label={t("parentPhone")}
-          placeholder={t("parentPhonePh")}
-          value={values.parentPhone}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange("parentPhone", e.target.value)}
-          variant={errors.parentPhone ? "error" : "primary"}
-        />
+        <label className={`mb-1 block text-sm font-medium text-gray-900 ${errors.parentPhone ? "text-red-600" : ""}`}>
+          {t("parentPhone")}
+        </label>
+        {/* react-international-phone isn't RTL-aware — force LTR so the flag
+            stays flush against the input under the page's Arabic dir="rtl". */}
+        <div dir="ltr">
+          <PhoneInput
+            defaultCountry="ae"
+            countries={UAE_ONLY}
+            hideDropdown
+            forceDialCode
+            value={values.parentPhone}
+            onChange={(phone) => onChange("parentPhone", phone)}
+            inputProps={{ name: "parentPhone" }}
+            className="w-full"
+            style={{
+              ...PHONE_INPUT_VARS,
+              ["--react-international-phone-border-color" as string]: errors.parentPhone ? "#F87171" : "#9AA8E2",
+            }}
+            inputClassName="w-full flex-1 !text-base text-gray-900 placeholder:text-gray-400"
+          />
+        </div>
         {errors.parentPhone && <p className="mt-1 text-sm text-red-600">{errors.parentPhone}</p>}
       </div>
 

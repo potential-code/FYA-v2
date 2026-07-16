@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { Check } from "@phosphor-icons/react";
@@ -8,13 +8,14 @@ import { Card, Button } from "@aegov/design-system-react";
 
 export function SignupSuccess({ firstName, parentEmail }: { firstName: string; parentEmail: string }) {
   const { t } = useTranslation("translation", { keyPrefix: "signup" });
+  const reduceMotion = useReducedMotion();
 
   return (
     <Card
       asChild
       variant="news"
       bordered
-      className="w-full max-w-xl rounded-2xl border-stroke bg-white p-10 text-center shadow-sm md:p-12"
+      className="w-full max-w-xl rounded-2xl border-stroke bg-white p-6 text-center shadow-sm sm:p-10 lg:p-12"
     >
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -46,8 +47,9 @@ export function SignupSuccess({ firstName, parentEmail }: { firstName: string; p
         <div className="flex items-start gap-3.5">
           <div className="flex flex-col items-center">
             <motion.div
-              animate={{ opacity: [1, 0.45, 1] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              // MotionConfig reducedMotion doesn't cover opacity loops, so gate explicitly.
+              animate={reduceMotion ? { opacity: 1 } : { opacity: [1, 0.45, 1] }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
               className="flex h-[30px] w-[30px] flex-none items-center justify-center rounded-full bg-warning text-white"
             >
               <span className="h-2 w-2 rounded-full bg-white" />

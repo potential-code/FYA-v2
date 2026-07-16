@@ -19,7 +19,7 @@ export default function LoginPage() {
   const { t } = useTranslation("translation", { keyPrefix: "login" });
 
   return (
-    <main className="grid min-h-screen md:h-screen md:grid-cols-2 md:overflow-hidden">
+    <main className="grid min-h-screen lg:h-screen lg:grid-cols-2 lg:overflow-hidden">
       <AuthBrandPanel image="/images/auth-side.png" tagline={t("brandLine")} subtext={t("brandSub")} />
       <LoginForm />
     </main>
