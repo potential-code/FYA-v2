@@ -8,6 +8,7 @@
   "st1": "Your basic information",
   "st2": "School",
   "st3": "Guardian consent",
+  "stepOf": "Step {{current}} of {{total}}",
   "s1Title": "Your basic information",
   "firstName": "First name",
   "lastName": "Last name",

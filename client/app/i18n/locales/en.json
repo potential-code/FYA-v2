@@ -1,7 +1,9 @@
 {
   "common": {
     "govBar": "An official website of the United Arab Emirates Government",
-    "langBtn": "العربية",
+    "langBtn": "AR",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu",
     "login": "Login",
     "registerNow": "Sign Up",
     "footerCopy": "© 2026 Federal Youth Authority. All rights reserved.",
