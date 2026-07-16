@@ -80,7 +80,6 @@ export function LoginForm() {
               setEmail(e.target.value);
               setError("");
             }}
-            dir="auto"
           />
 
           <div>
@@ -98,7 +97,6 @@ export function LoginForm() {
                 setPassword(e.target.value);
                 setError("");
               }}
-              dir="auto"
             />
           </div>
         </div>
