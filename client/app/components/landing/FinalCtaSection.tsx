@@ -103,7 +103,7 @@ export function FinalCtaSection() {
   }, [lang]);
 
   return (
-    <section className="relative overflow-hidden py-28 text-center text-white">
+    <section className="relative overflow-hidden py-20 text-center text-white md:py-28">
       <div className="pointer-events-none absolute -inset-y-[8%] inset-x-0" ref={bgRef}>
         <Image src="/images/cta-bg.jpg" alt="" fill className="object-cover" />
       </div>

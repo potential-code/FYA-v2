@@ -19,6 +19,12 @@ const aegovContentGlob = path.join(
 
 export default {
   darkMode: ["class"],
+  // NOTE: do NOT enable `future.hoverOnlyWhenSupported`. It wraps every local
+  // hover: utility in `@media (hover:hover)`, but AEGov's pre-compiled CSS
+  // ships plain (unwrapped) gold :hover rules — on touch devices the local
+  // brand-colored overrides would then stop masking them and taps would flash
+  // AEGov's default gold. Use the scoped `can-hover:` variant (below) for
+  // decorative hover transforms that must not stick on touch instead.
   content: [
     "./app/**/*.{js,jsx,ts,tsx}",
     // AEGov Design System components — required so Tailwind generates the
@@ -194,5 +200,14 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/typography"),
+    // `can-hover:` — applies only on devices with a real hover pointer, so
+    // taps on touch screens never leave decorative transforms (card lifts,
+    // icon scale/rotate) stuck in their sticky-:hover state.
+    require("tailwindcss/plugin")(({ addVariant }: { addVariant: (name: string, def: string) => void }) => {
+      addVariant("can-hover", "@media (hover: hover) and (pointer: fine)");
+    }),
+  ],
 } satisfies Config;

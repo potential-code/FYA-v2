@@ -49,7 +49,7 @@ export function AboutSection() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section id="about" className="relative overflow-clip py-24">
+    <section id="about" className="relative overflow-clip py-16 md:py-24">
       {/* Section is full-bleed so these motifs sit at the true screen edges
           (an inner max-w wrapper holds the content). Clipped by overflow so
           they peek in — top-left blue, bottom-right peach. */}
@@ -108,11 +108,21 @@ export function AboutSection() {
             {cards.map((card, i) => {
               const tint = TINTS[TINT_ORDER[i]];
               return (
-                <motion.div key={card.title} variants={item}>
+                // Own viewport trigger (not the parent's stagger): on stacked
+                // mobile layouts each card reveals as it scrolls into view;
+                // the index delay keeps the order visible when several share
+                // the viewport (desktop 2x2 grid).
+                <motion.div
+                  key={card.title}
+                  initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.5, ease: "easeOut", delay: i * 0.08 }}
+                >
                   <Card
                     variant="news"
                     bordered
-                    className={`h-full rounded-2xl p-4 transition-shadow duration-300 hover:shadow-[0_14px_36px_rgba(99,128,211,0.12)] ${tint.card}`}
+                    className={`h-full rounded-2xl p-4 transition-shadow duration-300 can-hover:hover:shadow-[0_14px_36px_rgba(99,128,211,0.12)] ${tint.card}`}
                   >
                     <h3 className="text-[14px] font-bold text-brand-navy">{card.title}</h3>
                     <ul className="mt-2 space-y-1.5">
@@ -172,13 +182,13 @@ export function AboutSection() {
           variant="news"
           className="overflow-hidden rounded-[28px] bg-gradient-to-r from-[#F5E1CB] via-[#C7C3DF] to-[#8E99D5] p-0 shadow-[0_20px_50px_rgba(110,130,205,0.22)]"
         >
-          <div className="grid grid-cols-1 gap-y-7 py-8 md:grid-cols-3 md:divide-x md:divide-white/30 md:rtl:divide-x-reverse">
+          <div className="grid grid-cols-3 divide-x divide-white/30 py-6 rtl:divide-x-reverse md:py-8">
             {stats.map((stat) => (
-              <div key={stat.label} className="px-6 text-center text-white">
-                <div className="text-4xl font-bold leading-tight [text-shadow:0_4px_14px_rgba(7,14,67,0.65),0_2px_4px_rgba(7,14,67,0.55)] md:text-[52px]">
+              <div key={stat.label} className="px-2 text-center text-white sm:px-4 md:px-6">
+                <div className="text-2xl font-bold leading-tight [text-shadow:0_4px_14px_rgba(7,14,67,0.65),0_2px_4px_rgba(7,14,67,0.55)] sm:text-4xl md:text-[52px]">
                   {stat.value}
                 </div>
-                <div className="mt-2 text-[12.5px] font-medium leading-snug text-white [text-shadow:0_2px_8px_rgba(7,14,67,0.6),0_1px_2px_rgba(7,14,67,0.5)]">
+                <div className="mt-1.5 text-[11px] font-medium leading-snug text-white [text-shadow:0_2px_8px_rgba(7,14,67,0.6),0_1px_2px_rgba(7,14,67,0.5)] sm:text-[12.5px] md:mt-2">
                   {stat.label}
                 </div>
               </div>

@@ -30,6 +30,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
 }
 
 /* Lenis manages scrolling itself when active — native smooth-scroll would
@@ -55,6 +57,8 @@ body {
   margin: 0;
   background: #fff;
   color: #2a3040;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
 }
 
 /* ------------------------------------------------------------------ *

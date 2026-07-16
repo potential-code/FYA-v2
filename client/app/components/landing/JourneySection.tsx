@@ -75,67 +75,49 @@ export function JourneySection() {
           );
         }
 
-        if (isDesktop) {
-          // Two-level cascade: the 3 cards stagger relative to each other
-          // (via each timeline's `delay`, since they sit in the same grid
-          // row and would otherwise all cross the ScrollTrigger threshold
-          // at once), and each card's internal elements cascade within it —
-          // image reveal -> badge pop -> meta -> title -> description, with
-          // small overlapping offsets so it reads as one fluid motion.
-          cards.forEach((card, i) => {
-            const image = card.querySelector("[data-phase-image]");
-            const badge = card.querySelector("[data-phase-badge]");
-            const meta = card.querySelector("[data-phase-meta]");
-            const title = card.querySelector("[data-phase-title]");
-            const desc = card.querySelector("[data-phase-desc]");
+        // Two-level cascade on every breakpoint: each card's internal elements
+        // cascade (image reveal -> badge pop -> meta -> title -> description).
+        // On desktop the 3 cards additionally stagger relative to each other
+        // via `delay`, since they sit in one grid row and would otherwise all
+        // cross the ScrollTrigger threshold at once; stacked mobile/tablet
+        // cards each trigger on their own scroll entry instead.
+        cards.forEach((card, i) => {
+          const image = card.querySelector("[data-phase-image]");
+          const badge = card.querySelector("[data-phase-badge]");
+          const meta = card.querySelector("[data-phase-meta]");
+          const title = card.querySelector("[data-phase-title]");
+          const desc = card.querySelector("[data-phase-desc]");
 
-            const tl = gsap.timeline({
-              delay: i * 0.15,
-              scrollTrigger: { trigger: card, start: "top 85%", toggleActions: "play none none none" },
-            });
-
-            if (image) {
-              tl.fromTo(
-                image,
-                { opacity: 0, scale: 1.08 },
-                { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" },
-              );
-            }
-            if (badge) {
-              tl.fromTo(
-                badge,
-                { opacity: 0, scale: 0 },
-                { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" },
-                "-=0.3",
-              );
-            }
-            if (meta) {
-              tl.fromTo(meta, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.25");
-            }
-            if (title) {
-              tl.fromTo(title, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.25");
-            }
-            if (desc) {
-              tl.fromTo(desc, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.25");
-            }
+          const tl = gsap.timeline({
+            delay: isDesktop ? i * 0.15 : 0,
+            scrollTrigger: { trigger: card, start: "top 85%", toggleActions: "play none none none" },
           });
-        } else if (cardsRoot) {
-          // Mobile: keep the simpler pre-existing group-stagger-only reveal —
-          // no per-element cascade, no badge pop overshoot, to keep
-          // scroll-triggered work light.
-          gsap.fromTo(
-            cardsRoot.children,
-            { opacity: 0, y: 40 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.7,
-              stagger: 0.15,
-              ease: "power2.out",
-              scrollTrigger: { trigger: cardsRoot, start: "top 85%", toggleActions: "play none none none" },
-            },
-          );
-        }
+
+          if (image) {
+            tl.fromTo(
+              image,
+              { opacity: 0, scale: 1.08 },
+              { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" },
+            );
+          }
+          if (badge) {
+            tl.fromTo(
+              badge,
+              { opacity: 0, scale: 0 },
+              { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" },
+              "-=0.3",
+            );
+          }
+          if (meta) {
+            tl.fromTo(meta, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.25");
+          }
+          if (title) {
+            tl.fromTo(title, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.25");
+          }
+          if (desc) {
+            tl.fromTo(desc, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.25");
+          }
+        });
       },
     );
 
@@ -143,7 +125,7 @@ export function JourneySection() {
   }, [lang, isArabic]);
 
   return (
-    <section id="journey" className="bg-surface-soft py-24">
+    <section id="journey" className="bg-surface-soft py-16 md:py-24">
       <div className="mx-auto max-w-6xl px-6 md:px-12">
         <div className="relative">
           {/* Large faint brand-logo watermark spanning behind the header copy
@@ -176,11 +158,11 @@ export function JourneySection() {
           <p className="mt-4 text-ink-soft">{t("journeySub")}</p>
         </div>
 
-        <div ref={cardsRef} className="mt-14 grid gap-6 md:grid-cols-3">
+        <div ref={cardsRef} className="mt-10 grid gap-5 sm:gap-6 md:mt-14 md:grid-cols-3">
           {phases.map((phase) => (
             <div
               key={phase.id}
-              className="h-full rounded-[18px] bg-gradient-to-br from-[#F4D7B9] via-[#C6BEDD] to-brand p-[2px] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_rgba(99,128,211,0.16)]"
+              className="h-full rounded-[18px] bg-gradient-to-br from-[#F4D7B9] via-[#C6BEDD] to-brand p-[2px] transition-all duration-300 can-hover:hover:-translate-y-1 can-hover:hover:shadow-[0_18px_44px_rgba(99,128,211,0.16)]"
             >
             <Card
               asChild
@@ -194,12 +176,12 @@ export function JourneySection() {
                     src={phase.image}
                     alt={phase.title[lang]}
                     fill
-                    className="object-cover transition-transform duration-500 hover:scale-105"
+                    className="object-cover transition-transform duration-500 can-hover:hover:scale-105"
                   />
                 </div>
                 <div
                   data-phase-badge
-                  className="absolute start-4 top-4 flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold text-white transition-shadow duration-300 group-hover:shadow-[0_0_0_6px_rgba(99,128,211,0.25)]"
+                  className="absolute start-4 top-4 flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold text-white transition-shadow duration-300 can-hover:group-hover:shadow-[0_0_0_6px_rgba(99,128,211,0.25)]"
                   style={{ background: phase.accent }}
                 >
                   {phase.num[lang]}
@@ -221,7 +203,7 @@ export function JourneySection() {
         </div>
         </div>
 
-        <h2 className="mt-20 text-center text-3xl font-bold text-brand-navy md:text-4xl">
+        <h2 className="mt-14 text-center text-3xl font-bold text-brand-navy md:mt-20 md:text-4xl">
           {t("journeyStepsTitle")}
         </h2>
         <ParticipantJourneyTimeline />

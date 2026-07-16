@@ -7,8 +7,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "../../context/LanguageContext";
 import { Button, Toggle } from "@aegov/design-system-react";
+import { List } from "@phosphor-icons/react";
+import { MobileNavDrawer } from "./MobileNavDrawer";
 
-const NAV_LINKS = [
+export const NAV_LINKS = [
   { href: "#", key: "navHome" },
   { href: "#about", key: "navAbout" },
   { href: "#journey", key: "navJourney" },
@@ -21,6 +23,8 @@ export function LandingNav() {
   const { lang, toggleLang } = useLanguage();
   const isArabic = lang === "ar";
   const [scrolled, setScrolled] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const openDrawer = () => setDrawerOpen(true);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 480);
@@ -31,10 +35,10 @@ export function LandingNav() {
   return (
     <>
       {/* Transparent nav embedded in the hero */}
-      <nav className="absolute inset-x-0 top-0 z-30 flex items-center justify-between px-6 py-5 md:px-12">
+      <nav className="absolute inset-x-0 top-0 z-30 flex items-center justify-between px-4 py-5 sm:px-6 md:px-12">
         <NavBrand light />
         <NavLinks t={tl} tc={tc} toggleLang={toggleLang} isArabic={isArabic} light />
-        <NavActions tc={tc} toggleLang={toggleLang} isArabic={isArabic} light />
+        <NavActions tc={tc} onMenuOpen={openDrawer} drawerOpen={drawerOpen} light />
       </nav>
 
       {/* Fixed nav that slides in once scrolled past the hero */}
@@ -42,12 +46,14 @@ export function LandingNav() {
         initial={false}
         animate={{ y: scrolled ? 0 : "-110%" }}
         transition={{ duration: 0.35, ease: "easeOut" }}
-        className="fixed inset-x-0 top-0 z-40 flex items-center justify-between border-b border-stroke bg-white/95 px-6 py-4 shadow-sm backdrop-blur md:px-12"
+        className="fixed inset-x-0 top-0 z-40 flex items-center justify-between border-b border-stroke bg-white/95 px-4 py-4 shadow-sm backdrop-blur sm:px-6 md:px-12"
       >
         <NavBrand />
         <NavLinks t={tl} tc={tc} toggleLang={toggleLang} isArabic={isArabic} />
-        <NavActions tc={tc} toggleLang={toggleLang} isArabic={isArabic} />
+        <NavActions tc={tc} onMenuOpen={openDrawer} drawerOpen={drawerOpen} />
       </motion.nav>
+
+      <MobileNavDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
     </>
   );
 }
@@ -66,7 +72,7 @@ function NavBrand({ light = false }: { light?: boolean }) {
           alt="Youth Leaders Path"
           width={170}
           height={44}
-          className="h-10 w-auto object-contain md:h-12"
+          className="h-12 w-auto object-contain"
           priority
         />
       </motion.div>
@@ -89,7 +95,7 @@ function NavLinks({
 }) {
   const reduceMotion = useReducedMotion();
   return (
-    <div className="hidden items-center gap-8 text-sm font-medium md:flex">
+    <div className="hidden items-center gap-8 text-sm font-medium lg:flex">
       {NAV_LINKS.map((link) => (
         <motion.a
           key={link.href}
@@ -129,45 +135,30 @@ function NavLinks({
 
 function NavActions({
   tc,
-  toggleLang,
-  isArabic,
+  onMenuOpen,
+  drawerOpen,
   light = false,
 }: {
   tc: (key: string) => string;
-  toggleLang: () => void;
-  isArabic: boolean;
+  onMenuOpen: () => void;
+  drawerOpen: boolean;
   light?: boolean;
 }) {
   const reduceMotion = useReducedMotion();
   return (
-    <div className="flex items-center gap-3">
-      {/* On mobile the nav links (and the toggle inside them) are hidden, so surface
-          the language toggle here instead — hidden on md+ where NavLinks already shows it. */}
-      <motion.div
-        className="md:hidden"
-        whileHover={{ scale: 1.04 }}
-        whileTap={{ scale: 0.97 }}
-        transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 25 }}
-      >
-        <Toggle
-          checked={isArabic}
-          onCheckedChange={toggleLang}
-          variant="secondary"
-          label={tc("langBtn")}
-          aria-label="Toggle language"
-          className={light ? "text-white/90" : "text-ink-soft"}
-        />
-      </motion.div>
+    <div className="flex items-center gap-2.5 sm:gap-3">
       {/* Plain Link (not the AEGov Hyperlink): with asChild + Next Link the
           Hyperlink drops its className onto the rendered <a>, so the anchor
           inherited the landing page's white text and went white-on-white once
           the scrolled (white) nav slid in. Styling the anchor directly fixes it. */}
+      {/* The narrowest phones can't fit logo + login + register + hamburger,
+          so below sm the login link lives in the drawer instead. */}
       <Link
         href="/login"
         className={
           light
-            ? "text-sm font-medium text-white/90 no-underline transition hover:text-white"
-            : "text-sm font-medium text-ink-soft no-underline transition hover:text-brand"
+            ? "hidden text-sm font-medium text-white/90 no-underline transition hover:text-white sm:inline"
+            : "hidden text-sm font-medium text-ink-soft no-underline transition hover:text-brand sm:inline"
         }
       >
         {tc("login")}
@@ -184,6 +175,17 @@ function NavActions({
           </Button>
         </motion.div>
       </Link>
+      {/* Below lg the nav links live in the drawer, so surface a hamburger trigger. */}
+      <button
+        type="button"
+        onClick={onMenuOpen}
+        aria-label={tc("menuOpen")}
+        aria-expanded={drawerOpen}
+        aria-controls="mobile-nav-drawer"
+        className={`-m-2 p-2 lg:hidden ${light ? "text-white" : "text-brand-navy"}`}
+      >
+        <List size={26} weight="bold" aria-hidden />
+      </button>
     </div>
   );
 }

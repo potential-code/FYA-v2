@@ -129,9 +129,9 @@ export function HeroSection() {
         variants={container}
         initial={reduceMotion ? false : "hidden"}
         animate="show"
-        className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20 pt-40 md:px-12"
+        className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-14 pt-32 sm:pb-16 sm:pt-36 md:px-12 md:pb-20 md:pt-40"
       >
-        <motion.h1 variants={item} className="max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
+        <motion.h1 variants={item} className="max-w-3xl text-[34px] font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
           {t("heroTitle1")} {t("heroTitle2")}{" "}
           <span className="bg-gradient-to-r from-brand-light to-white bg-clip-text text-transparent">
             {t("heroTitleAccent")}
@@ -142,7 +142,7 @@ export function HeroSection() {
           {t("heroSub")}
         </motion.p>
 
-        <motion.div variants={item} className="mt-8 flex flex-wrap gap-4">
+        <motion.div variants={item} className="mt-8 flex flex-wrap gap-3 sm:gap-4">
           <Link href="/sign-up">
             <motion.div
               className="inline-block"
@@ -175,7 +175,7 @@ export function HeroSection() {
 
         <motion.div
           variants={item}
-          className="mt-14 flex flex-wrap gap-x-10 gap-y-6 border-t border-white/15 pt-8"
+          className="mt-10 grid grid-cols-3 gap-x-4 border-t border-white/15 pt-6 sm:mt-14 sm:gap-x-10 sm:pt-8"
         >
           {STAT_TARGETS.map((target, i) => (
             <StatBlock key={i} target={target} labelKey={STAT_LABEL_KEYS[i]} lang={lang} t={t} />
@@ -203,8 +203,8 @@ function StatBlock({
 
   return (
     <div>
-      <div className="text-3xl font-bold md:text-4xl">{displayExact}</div>
-      <div className="mt-1 text-sm text-white/70">{t(labelKey)}</div>
+      <div className="text-2xl font-bold sm:text-3xl md:text-4xl">{displayExact}</div>
+      <div className="mt-1 text-xs text-white/70 sm:text-sm">{t(labelKey)}</div>
     </div>
   );
 }

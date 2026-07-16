@@ -24,29 +24,33 @@ export function LandingFooter() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <footer className="relative overflow-hidden bg-brand-navy py-16 text-white">
-      {/* Actual logo watermark cropped to the symbol only (Arabic + English lines removed). */}
+    <footer className="relative overflow-hidden bg-brand-navy py-10 text-white md:py-16">
+      {/* Actual logo watermark cropped to the symbol only (Arabic + English lines removed).
+          On mobile it's large and anchored to the bottom-end corner, peeking in from
+          outside the footer's edge (clipped by the footer's overflow-hidden) so it
+          reads as a bold flourish without sitting over the title/description text.
+          Reverts to the original top-end corner treatment from md up. */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute -end-16 -top-10"
+        className="pointer-events-none absolute -bottom-14 -end-24 md:bottom-auto md:-end-16 md:-top-10"
         initial={reduceMotion ? { opacity: 0.12 } : { opacity: 0 }}
         whileInView={{ opacity: 0.12 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={reduceMotion ? { duration: 0 } : { duration: 1.4, ease: "easeOut" }}
       >
-        <div className="h-[205px] w-[440px] overflow-hidden">
+        <div className="h-[220px] w-[470px] overflow-hidden md:h-[205px] md:w-[440px]">
           <Image src="/images/logo-white.png" alt="" width={880} height={676} className="w-full" />
         </div>
       </motion.div>
 
       <motion.div
-        className="relative mx-auto grid max-w-6xl gap-10 px-6 md:grid-cols-[1.3fr_1fr_1fr] md:px-12"
+        className="relative mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-8 px-5 sm:gap-10 sm:px-6 md:grid-cols-[1.3fr_1fr_1fr] md:px-12"
         variants={container}
         initial={reduceMotion ? false : "hidden"}
         whileInView="show"
         viewport={{ once: true, amount: 0.3 }}
       >
-        <motion.div variants={item}>
+        <motion.div variants={item} className="col-span-2 md:col-span-1">
           {/* Full actual logo (symbol + Arabic + English wordmark). */}
           <Image src="/images/logo-white.png" alt="Youth Leaders Path" width={200} height={154} className="h-auto w-[140px]" />
           <h3 className="mt-4 text-base font-semibold text-white">{tl("footerTitle")}</h3>
